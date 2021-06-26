@@ -24,7 +24,7 @@ userRoutes.post('/login', (req, res) => {
         if (error) {
             throw error;
         }
-        if (result) {
+        if (result != '') {
             const tokenJwt = token_1.default.getToken({
                 id_usuario: result.id_usuario,
                 nombre: result.nombre,
@@ -41,8 +41,7 @@ userRoutes.post('/login', (req, res) => {
         else {
             return res.json({
                 estado: "success",
-                mensaje: "usuario no encontrado en base de datos",
-                data: result
+                mensaje: "usuario no encontrado en base de datos"
             });
         }
     });

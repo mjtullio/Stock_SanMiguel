@@ -6,9 +6,9 @@ class Token {
 
     constructor(){}
 
-    static getToken(palyload:string):string{
+    static getToken(payload:any):any{
         return Jwt.sign({
-            usuario:palyload
+            usuario:payload
         },
         this.seed,{
             expiresIn: this.caducidad

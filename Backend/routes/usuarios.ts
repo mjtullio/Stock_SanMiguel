@@ -15,26 +15,25 @@ userRoutes.get('/prueba', (req:Request, res:Response )=>{
 })
 
 userRoutes.post('/login',(req:Request, res:Response )=>{
+   
+        const body =req.body;
 
-    const body =req.body;
+        const documento= body.documento;
+        const clave = body.clave;
+        connection.query('select * from usuarios where documento = ? and clave= md5(?)',[documento,clave],(error:any,result:any)=>{
 
-    const documento= body.documento;
-    const clave = body.clave;
-
-    connection.query('select * from usuarios where documento = ? and clave= md5(?)',[documento,clave],(error,result)=>{
-     
+    
         if(error){
             throw error
         }
-        if(result){
-		/*
+        if(result != ''){   
             const tokenJwt = Token.getToken({
                 id_usuario: result.id_usuario,
                 nombre: result.nombre,
                 documento: result.documento,
                 id_tipo: result.id_tipo
             })
-		*/
+            
             return res.json({
                 estado:"success",
                 mensaje: "usuario encontrado",
@@ -44,8 +43,8 @@ userRoutes.post('/login',(req:Request, res:Response )=>{
         }else{
             return res.json({
                 estado: "success",
-                mensaje: "usuario no encontrado en base de datos",
-                data: result
+                mensaje: "usuario no encontrado en base de datos"
+                
             })
         }
     })
