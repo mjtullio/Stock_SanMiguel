@@ -7,6 +7,7 @@ const server_1 = __importDefault(require("./class/server"));
 const usuarios_1 = __importDefault(require("./routes/usuarios"));
 const connectionMySQL_1 = __importDefault(require("./bin/connectionMySQL"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const proveedores_1 = __importDefault(require("./routes/proveedores"));
 //Creando servidor web
 const server = new server_1.default();
 server.start(() => {
@@ -16,6 +17,7 @@ server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
 // Rutas de aplicacion
 server.app.use('/users', usuarios_1.default);
+server.app.use('/prov', proveedores_1.default);
 // conexion my sql
 connectionMySQL_1.default.connect((error) => {
     if (error) {
