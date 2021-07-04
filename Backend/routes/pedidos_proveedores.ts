@@ -1,5 +1,5 @@
 import  {Router, Response ,Request}  from "express";
-import Token from "../class/token";
+import {Token} from "../class/token";
 import {verificarToken} from "../middlewares/authentication";
 import connection from "../bin/connectionMySQL";
 import { IfileUpload } from "../interfaces/file_upload";

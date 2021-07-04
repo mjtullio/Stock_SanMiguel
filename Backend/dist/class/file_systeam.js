@@ -8,7 +8,7 @@ const fs_1 = __importDefault(require("fs"));
 class FileSystem {
     constructor() { }
     crearCarpetaUsuario() {
-        const pathProv = '/home/danap/Proyecto_UTN/Stock_SanMiguel/Backend/Pedidos_Provedores';
+        const pathProv = '../../Pedidos_Provedores';
         if (!fs_1.default.existsSync(pathProv)) {
             fs_1.default.mkdirSync(pathProv);
         }

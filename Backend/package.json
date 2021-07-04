@@ -1,14 +1,14 @@
 {
-  "name": "backendserver_mar_vie",
+  "name": "Stock_SanMiguel",
   "version": "1.0.0",
-  "description": "\"Backend para clase martes y viernes\"",
+  "description": "\"Distribuidora San Miguel\"",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "set NODE_ENV=development&&tsc&& nodemon node dist",
     "prd": "set NODE_ENV=production&&tsc&& nodemon node dist"
   },
-  "author": "\"Gustavo G\"",
+  "author": "\"Daniela Postai y Marcelo Tullio\"",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",

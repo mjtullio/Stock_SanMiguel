@@ -7,7 +7,7 @@ import { IfileUpload } from "../interfaces/file_upload";
 export default class FileSystem{
     constructor(){}
     private crearCarpetaUsuario():string{
-        const pathProv = '/home/danap/Proyecto_UTN/Stock_SanMiguel/Backend/Pedidos_Provedores'
+        const pathProv = '../../Pedidos_Provedores'
         if(!fs.existsSync(pathProv)){
           fs.mkdirSync(pathProv);  
         }

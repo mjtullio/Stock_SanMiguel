@@ -8,7 +8,10 @@ const usuarios_1 = __importDefault(require("./routes/usuarios"));
 const connectionMySQL_1 = __importDefault(require("./bin/connectionMySQL"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const proveedores_1 = __importDefault(require("./routes/proveedores"));
+const tipos_1 = __importDefault(require("./routes/tipos"));
+const productos_1 = __importDefault(require("./routes/productos"));
 const pedidos_proveedores_1 = __importDefault(require("./routes/pedidos_proveedores"));
+const pedidos_venta_1 = __importDefault(require("./routes/pedidos_venta"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 //Creando servidor web
 const server = new server_1.default();
@@ -22,7 +25,10 @@ server.app.use(express_fileupload_1.default());
 // Rutas de aplicacion
 server.app.use('/users', usuarios_1.default);
 server.app.use('/prov', proveedores_1.default);
+server.app.use('/tipos', tipos_1.default);
+server.app.use('/produ', productos_1.default);
 server.app.use('/pedidosprov', pedidos_proveedores_1.default);
+server.app.use('/pedidosvent', pedidos_venta_1.default);
 // conexion my sql
 connectionMySQL_1.default.connect((error) => {
     if (error) {

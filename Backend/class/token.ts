@@ -2,18 +2,18 @@ import Jwt  from 'jsonwebtoken';
 
 class Token {
     private static seed:string= 'estaEsElSeed';
-    private static caducidad:string = '1d';
+    private static caducidad:string = '20s';
 
     constructor(){}
 
-    static getToken(payload:any):any{
-        return Jwt.sign({
+    static getToken(payload:{}):string{
+        const token =  Jwt.sign({
             usuario:payload
         },
-        this.seed,{
-            expiresIn: this.caducidad
-        })
-
+        this.seed,
+        {expiresIn: this.caducidad}
+        )
+        return token;
     }
 
     static checkToken(token:string):Promise<any>{
@@ -29,4 +29,4 @@ class Token {
     }
 }
 
-export default Token;
+export {Token};

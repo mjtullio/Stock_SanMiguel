@@ -1,16 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verificarToken = void 0;
-const token_1 = __importDefault(require("../class/token"));
+const token_1 = require("../class/token");
 const verificarToken = (req, res, next) => {
     const userToken = req.get('x-token') || '';
-    token_1.default.checkToken(userToken).then(decoded => {
+    token_1.Token.checkToken(userToken)
+        .then(decoded => {
         req.usuario = decoded.usuario;
-        const refrestoken = token_1.default.getToken(req.usuario);
-        req.token = refrestoken;
+        const refreshtoken = token_1.Token.getToken(req.usuario);
+        req.token = refreshtoken;
         next();
     })
         .catch(error => {
