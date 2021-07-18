@@ -17,7 +17,8 @@ tiposRoutes.post('/muestraTipoClase', authentication_1.verificarToken, (req, res
             return res.json({
                 estado: "success",
                 mensaje: "tipo clase encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -38,7 +39,8 @@ tiposRoutes.post('/muestraXClase', authentication_1.verificarToken, (req, res) =
             return res.json({
                 estado: "success",
                 mensaje: "tipo encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -59,7 +61,8 @@ tiposRoutes.get('/muestraTipos', authentication_1.verificarToken, (req, res) => 
             return res.json({
                 estado: "success",
                 mensaje: "tipos encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -72,7 +75,7 @@ tiposRoutes.get('/muestraTipos', authentication_1.verificarToken, (req, res) => 
 });
 tiposRoutes.post('/updatetipo', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('update tipos set  id_tipo = ? , nombre = ? , clase = ? where id_tipo = ? and clase = ?', [body.id_tipo, body.nombre, body.clase], (error, result) => {
+    connectionMySQL_1.default.query('update tipos set nombre = ? , clase = ? where id_tipo = ? and clase = ?', [body.nombre, body.clase, body.id_tipo,], (error, result) => {
         if (error) {
             throw error;
         }
@@ -80,7 +83,8 @@ tiposRoutes.post('/updatetipo', authentication_1.verificarToken, (req, res) => {
             return res.json({
                 estado: "success",
                 mensaje: "tipo modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -101,7 +105,8 @@ tiposRoutes.post('/agregartipo', authentication_1.verificarToken, (req, res) => 
             return res.json({
                 estado: "success",
                 mensaje: "tipo agregado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {

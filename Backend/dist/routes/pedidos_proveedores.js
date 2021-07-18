@@ -29,7 +29,8 @@ pedidosprovRoutes.post('/muestraPedidosProv', authentication_1.verificarToken, (
             return res.json({
                 estado: "success",
                 mensaje: "pedidos proveedores encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -49,7 +50,8 @@ pedidosprovRoutes.get('/muestraPedidos', authentication_1.verificarToken, (req, 
             return res.json({
                 estado: "success",
                 mensaje: "pedidos proveedores encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -70,7 +72,8 @@ pedidosprovRoutes.post('/muestraPedidoProv', authentication_1.verificarToken, (r
             return res.json({
                 estado: "success",
                 mensaje: "pedidos proveedor encontrado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -93,7 +96,7 @@ pedidosprovRoutes.post('/agregarPedidoProv', authentication_1.verificarToken, (r
             yield promesa_1.default('INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,?,?,?,?)', [nroPedido[0].id, detalle[0], detalle[1], detalle[2], detalle[3]]);
         }
         yield promesa_1.default("commit");
-        res.json({ estado: "success" });
+        res.json({ estado: "success", refreshToken: req.token });
     }
     catch (error) {
         const rollback = yield promesa_1.default("rollback");
@@ -110,7 +113,8 @@ pedidosprovRoutes.post('/modificaPedidoProv', authentication_1.verificarToken, (
             return res.json({
                 estado: "success",
                 mensaje: "pedido modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {

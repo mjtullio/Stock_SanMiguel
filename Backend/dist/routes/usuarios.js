@@ -46,7 +46,8 @@ userRoutes.get('/muestraUsuarios', authentication_1.verificarToken, (req, res) =
             return res.json({
                 estado: "success",
                 mensaje: "usuarios encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -67,7 +68,8 @@ userRoutes.post('/muestraUs', authentication_1.verificarToken, (req, res) => {
             return res.json({
                 estado: "success",
                 mensaje: "usuario encontrado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -88,7 +90,8 @@ userRoutes.post('/update', authentication_1.verificarToken, (req, res) => {
             return res.json({
                 estado: "success",
                 mensaje: "usuario modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -109,7 +112,8 @@ userRoutes.post('/bajaUsuario', authentication_1.verificarToken, (req, res) => {
             return res.json({
                 estado: "success",
                 mensaje: "usuario dado de baja",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {

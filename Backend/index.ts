@@ -8,6 +8,7 @@ import productosRoutes from './routes/productos';
 import pedidosprovRoutes from './routes/pedidos_proveedores';
 import pedidosventRoutes from './routes/pedidos_venta';
 import detallesRoutes from './routes/detalles';
+import stockRoutes from './routes/stock';
 import fileUpload from 'express-fileupload';
 
 //Creando servidor web
@@ -31,6 +32,7 @@ server.app.use('/produ', productosRoutes);
 server.app.use('/pedidosprov', pedidosprovRoutes);
 server.app.use('/pedidosvent', pedidosventRoutes);
 server.app.use('/detalles', detallesRoutes);
+server.app.use('/stock', stockRoutes);
 
 
 

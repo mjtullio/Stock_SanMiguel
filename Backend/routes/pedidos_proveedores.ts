@@ -10,7 +10,7 @@ const filesystem = new FileSystem;
 
 const pedidosprovRoutes = Router(); 
 
-pedidosprovRoutes.post('/muestraPedidosProv', verificarToken ,(req: Request, res: Response) => {
+pedidosprovRoutes.post('/muestraPedidosProv', verificarToken ,(req: any, res: Response) => {
     const body = req.body;
     connection.query('select * from pedidos_proveedores where id_proveedor = ? order by id_pedidos_proveedores desc ',[body.id_proveedor], (error: any, result: any) => {
         if (error) {
@@ -20,7 +20,8 @@ pedidosprovRoutes.post('/muestraPedidosProv', verificarToken ,(req: Request, res
             return res.json({
                 estado: "success",
                 mensaje: "pedidos proveedores encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -31,7 +32,7 @@ pedidosprovRoutes.post('/muestraPedidosProv', verificarToken ,(req: Request, res
         }
     })
 })
-pedidosprovRoutes.get('/muestraPedidos', verificarToken ,(req: Request, res: Response) => {
+pedidosprovRoutes.get('/muestraPedidos', verificarToken ,(req: any, res: Response) => {
     
     connection.query('select * from pedidos_proveedores order by id_pedidos_proveedores desc ', (error: any, result: any) => {
         if (error) {
@@ -41,7 +42,8 @@ pedidosprovRoutes.get('/muestraPedidos', verificarToken ,(req: Request, res: Res
             return res.json({
                 estado: "success",
                 mensaje: "pedidos proveedores encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -53,7 +55,7 @@ pedidosprovRoutes.get('/muestraPedidos', verificarToken ,(req: Request, res: Res
     })
 })
 
-pedidosprovRoutes.post('/muestraPedidoProv', verificarToken ,(req: Request, res: Response) => {
+pedidosprovRoutes.post('/muestraPedidoProv', verificarToken ,(req: any, res: Response) => {
     const body = req.body;
     connection.query('select * from pedidos_proveedores where id_pedidos_proveedores = ?',[body.id_pedidos_proveedores], (error: any, result: any) => {
         if (error) {
@@ -63,7 +65,8 @@ pedidosprovRoutes.post('/muestraPedidoProv', verificarToken ,(req: Request, res:
             return res.json({
                 estado: "success",
                 mensaje: "pedidos proveedor encontrado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -75,7 +78,7 @@ pedidosprovRoutes.post('/muestraPedidoProv', verificarToken ,(req: Request, res:
     })
 })
 
-pedidosprovRoutes.post('/agregarPedidoProv', verificarToken ,async (req: Request, res: Response) => {
+pedidosprovRoutes.post('/agregarPedidoProv', verificarToken ,async (req: any, res: Response) => {
    
     try{
         const body = req.body;
@@ -95,7 +98,7 @@ pedidosprovRoutes.post('/agregarPedidoProv', verificarToken ,async (req: Request
     
             await query("commit");
 
-            res.json({estado: "success"}) 
+            res.json({estado: "success",  refreshToken: req.token}) 
     }
     catch(error){
         const rollback = await query("rollback");
@@ -103,7 +106,7 @@ pedidosprovRoutes.post('/agregarPedidoProv', verificarToken ,async (req: Request
     }
 })
 
-pedidosprovRoutes.post('/modificaPedidoProv', verificarToken ,  (req: Request, res: Response) => {
+pedidosprovRoutes.post('/modificaPedidoProv', verificarToken ,  (req: any, res: Response) => {
     
     const body = req.body;
     connection.query('UPDATE pedidos_proveedores set id_proveedor = ?, id_tipo = ?, importe = ?, fecha = ?, observacion = ?,path_imagen = ?, id_usuario = ? where id_pedido = ?', [body.id_proveedor, body.id_tipo, body.importe , body.fecha, body.observacion, body.path_imagen, body.id_usuario, body.id_pedido], (error: any, result: any) => {
@@ -115,7 +118,8 @@ pedidosprovRoutes.post('/modificaPedidoProv', verificarToken ,  (req: Request, r
             return res.json({
                 estado: "success",
                 mensaje: "pedido modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({

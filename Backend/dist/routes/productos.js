@@ -8,7 +8,6 @@ const authentication_1 = require("../middlewares/authentication");
 const connectionMySQL_1 = __importDefault(require("../bin/connectionMySQL"));
 const productosRoutes = express_1.Router();
 productosRoutes.get('/muestraProductos', authentication_1.verificarToken, (req, res) => {
-    const body = req.body;
     connectionMySQL_1.default.query('select * from productos order by activo , id_proveedor , nombre', (error, result) => {
         if (error) {
             throw error;
@@ -17,7 +16,8 @@ productosRoutes.get('/muestraProductos', authentication_1.verificarToken, (req, 
             return res.json({
                 estado: "success",
                 mensaje: "productos encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -38,7 +38,8 @@ productosRoutes.post('/muestraProductos', authentication_1.verificarToken, (req,
             return res.json({
                 estado: "success",
                 mensaje: "producto encontrado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -59,7 +60,8 @@ productosRoutes.post('/muestraProdXProv', authentication_1.verificarToken, (req,
             return res.json({
                 estado: "success",
                 mensaje: "producto de proveedores encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -80,7 +82,8 @@ productosRoutes.post('/updateproducto', authentication_1.verificarToken, (req, r
             return res.json({
                 estado: "success",
                 mensaje: "producto modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -101,7 +104,8 @@ productosRoutes.post('/bajaProducto', authentication_1.verificarToken, (req, res
             return res.json({
                 estado: "success",
                 mensaje: "producto dado de baja",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -122,7 +126,8 @@ productosRoutes.post('/agregarproducto', authentication_1.verificarToken, (req, 
             return res.json({
                 estado: "success",
                 mensaje: "producto modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {

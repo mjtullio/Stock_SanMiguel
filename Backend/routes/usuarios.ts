@@ -6,7 +6,7 @@ import usuarios from "../controllers/usuarios";
 
 const userRoutes = Router();
 
-userRoutes.post('/login', (req: Request, res: Response) => {
+userRoutes.post('/login', (req: any, res: Response) => {
 
     const body = req.body;
     
@@ -38,7 +38,7 @@ userRoutes.post('/login', (req: Request, res: Response) => {
     })
 })
 
-userRoutes.get('/muestraUsuarios', verificarToken ,(req: Request, res: Response) => {
+userRoutes.get('/muestraUsuarios', verificarToken ,(req: any, res: Response) => {
     const body = req.body;
     connection.query('select * from usuarios order by activo , id_usuario', (error: any, result: any) => {
         if (error) {
@@ -48,8 +48,8 @@ userRoutes.get('/muestraUsuarios', verificarToken ,(req: Request, res: Response)
             return res.json({
                 estado: "success",
                 mensaje: "usuarios encontrados",
-                data: result
-            
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -61,7 +61,7 @@ userRoutes.get('/muestraUsuarios', verificarToken ,(req: Request, res: Response)
     })
 })
 
-userRoutes.post('/muestraUs', verificarToken ,(req: Request, res: Response) => {
+userRoutes.post('/muestraUs', verificarToken ,(req: any, res: Response) => {
     const body = req.body;
     connection.query('select * from usuarios where id_usuario = ?',[body.id_usuario] ,(error: any, result: any) => {
         if (error) {
@@ -71,8 +71,8 @@ userRoutes.post('/muestraUs', verificarToken ,(req: Request, res: Response) => {
             return res.json({
                 estado: "success",
                 mensaje: "usuario encontrado",
-                data: result
-            
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -84,7 +84,7 @@ userRoutes.post('/muestraUs', verificarToken ,(req: Request, res: Response) => {
     })
 })
 
-userRoutes.post('/update', verificarToken, (req: Request, res: Response) => {
+userRoutes.post('/update', verificarToken, (req: any, res: Response) => {
     const body = req.body;
     connection.query('update usuarios set nombre = ? , documento = ?, clave = md5(?), id_tipo = ?, activo = ?, telefono = ?, email = ?, contacto_emergencia = ? where id_usuario = ?', [body.nombre , body.documento, body.clave, body.id_tipo , body.activo , body.telefono, body.email , body.contacto_emergencia, body.id_usuario], (error: any, result: any) => {
         
@@ -97,7 +97,8 @@ userRoutes.post('/update', verificarToken, (req: Request, res: Response) => {
             return res.json({
                 estado: "success",
                 mensaje: "usuario modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -110,7 +111,7 @@ userRoutes.post('/update', verificarToken, (req: Request, res: Response) => {
 })
 
 
-userRoutes.post('/bajaUsuario', verificarToken, (req: Request, res: Response) => {
+userRoutes.post('/bajaUsuario', verificarToken, (req: any, res: Response) => {
     const body = req.body;
     connection.query('update usuarios set activo = 0 where id_usuario = ?', [body.id_usuario], (error: any, result: any) => {
         
@@ -123,7 +124,8 @@ userRoutes.post('/bajaUsuario', verificarToken, (req: Request, res: Response) =>
             return res.json({
                 estado: "success",
                 mensaje: "usuario dado de baja",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({

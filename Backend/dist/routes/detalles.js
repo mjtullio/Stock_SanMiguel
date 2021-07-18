@@ -17,7 +17,8 @@ detallesRoutes.post('/muestraDetallesPedido', authentication_1.verificarToken, (
             return res.json({
                 estado: "success",
                 mensaje: "detalles de pedido encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {

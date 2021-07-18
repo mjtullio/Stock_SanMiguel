@@ -4,7 +4,7 @@ import connection from "../bin/connectionMySQL";
 
 const tiposRoutes = Router(); 
 
-tiposRoutes.post('/muestraTipoClase', verificarToken ,(req: Request, res: Response) => {
+tiposRoutes.post('/muestraTipoClase', verificarToken ,(req: any, res: Response) => {
     const body = req.body;
     connection.query('select * from tipos where id_tipo = ? and clase = ?',[body.id_tipo , body.clase], (error: any, result: any) => {
         if (error) {
@@ -14,7 +14,8 @@ tiposRoutes.post('/muestraTipoClase', verificarToken ,(req: Request, res: Respon
             return res.json({
                 estado: "success",
                 mensaje: "tipo clase encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -26,7 +27,7 @@ tiposRoutes.post('/muestraTipoClase', verificarToken ,(req: Request, res: Respon
     })
 })
 
-tiposRoutes.post('/muestraXClase', verificarToken ,(req: Request, res: Response) => {
+tiposRoutes.post('/muestraXClase', verificarToken ,(req: any, res: Response) => {
     const body = req.body;
     connection.query('select * from tipos where clase = ? order by id_tipo',[ body.clase], (error: any, result: any) => {
         if (error) {
@@ -36,7 +37,8 @@ tiposRoutes.post('/muestraXClase', verificarToken ,(req: Request, res: Response)
             return res.json({
                 estado: "success",
                 mensaje: "tipo encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -47,7 +49,7 @@ tiposRoutes.post('/muestraXClase', verificarToken ,(req: Request, res: Response)
     })
 })
 
-tiposRoutes.get('/muestraTipos', verificarToken ,(req: Request, res: Response) => {
+tiposRoutes.get('/muestraTipos', verificarToken ,(req: any, res: Response) => {
     const body = req.body;
     connection.query('select * from tipos order by clase , id_tipo', (error: any, result: any) => {
         if (error) {
@@ -57,7 +59,8 @@ tiposRoutes.get('/muestraTipos', verificarToken ,(req: Request, res: Response) =
             return res.json({
                 estado: "success",
                 mensaje: "tipos encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -68,9 +71,9 @@ tiposRoutes.get('/muestraTipos', verificarToken ,(req: Request, res: Response) =
         }
     })
 })
-tiposRoutes.post('/updatetipo', verificarToken, (req: Request, res: Response) => {
+tiposRoutes.post('/updatetipo', verificarToken, (req: any, res: Response) => {
     const body = req.body;
-    connection.query('update tipos set  id_tipo = ? , nombre = ? , clase = ? where id_tipo = ? and clase = ?', [body.id_tipo , body.nombre , body.clase], (error: any, result: any) => {
+    connection.query('update tipos set nombre = ? , clase = ? where id_tipo = ? and clase = ?', [body.nombre , body.clase, body.id_tipo ,], (error: any, result: any) => {
     
         if (error) {
             throw error
@@ -79,7 +82,8 @@ tiposRoutes.post('/updatetipo', verificarToken, (req: Request, res: Response) =>
             return res.json({
                 estado: "success",
                 mensaje: "tipo modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -90,7 +94,7 @@ tiposRoutes.post('/updatetipo', verificarToken, (req: Request, res: Response) =>
     })
 })
 
-tiposRoutes.post('/agregartipo', verificarToken, (req: Request, res: Response) => {
+tiposRoutes.post('/agregartipo', verificarToken, (req: any, res: Response) => {
     const body = req.body;
     connection.query('INSERT INTO tipos (id_tipo, nombre, clase) VALUES (?,?,?)', [body.id_tipo , body.nombre , body.clase], (error: any, result: any) => {
         if (error) {
@@ -100,7 +104,8 @@ tiposRoutes.post('/agregartipo', verificarToken, (req: Request, res: Response) =
             return res.json({
                 estado: "success",
                 mensaje: "tipo agregado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({

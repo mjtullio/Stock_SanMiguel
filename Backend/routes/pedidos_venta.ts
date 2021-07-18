@@ -10,7 +10,7 @@ const filesystem = new FileSystem;
 
 const pedidosventRoutes = Router(); 
 
-pedidosventRoutes.get('/muestraPedidos', verificarToken ,(req: Request, res: Response) => {
+pedidosventRoutes.get('/muestraPedidos', verificarToken ,(req: any, res: Response) => {
     
     connection.query('select * from pedidos_ventas order by id_pedidos_ventas desc ', (error: any, result: any) => {
         if (error) {
@@ -20,7 +20,8 @@ pedidosventRoutes.get('/muestraPedidos', verificarToken ,(req: Request, res: Res
             return res.json({
                 estado: "success",
                 mensaje: "pedidos ventas encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -32,7 +33,7 @@ pedidosventRoutes.get('/muestraPedidos', verificarToken ,(req: Request, res: Res
     })
 })
 
-pedidosventRoutes.post('/muestraPedidoVent', verificarToken ,(req: Request, res: Response) => {
+pedidosventRoutes.post('/muestraPedidoVent', verificarToken ,(req: any, res: Response) => {
     const body = req.body;
     connection.query('select * from pedidos_ventas where id_pedidos_ventas = ?',[body.pedidos_ventas], (error: any, result: any) => {
         if (error) {
@@ -42,7 +43,8 @@ pedidosventRoutes.post('/muestraPedidoVent', verificarToken ,(req: Request, res:
             return res.json({
                 estado: "success",
                 mensaje: "pedidos venta encontrado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -54,7 +56,7 @@ pedidosventRoutes.post('/muestraPedidoVent', verificarToken ,(req: Request, res:
     })
 })
 
-pedidosventRoutes.post('/AgregaPedidoVent', verificarToken ,async (req: Request, res: Response) => {
+pedidosventRoutes.post('/AgregaPedidoVent', verificarToken ,async (req: any, res: Response) => {
    
     try{
         const body = req.body;
@@ -74,7 +76,7 @@ pedidosventRoutes.post('/AgregaPedidoVent', verificarToken ,async (req: Request,
     
             await query("commit");
 
-            res.json({estado: "success"}) 
+            res.json({estado: "success",  refreshToken: req.token}) 
     }
     catch(error){
         const rollback = await query("rollback");
@@ -82,7 +84,7 @@ pedidosventRoutes.post('/AgregaPedidoVent', verificarToken ,async (req: Request,
     }
 })
 
-pedidosventRoutes.post('/modificaPedidoVent', verificarToken ,  (req: Request, res: Response) => {
+pedidosventRoutes.post('/modificaPedidoVent', verificarToken ,  (req: any, res: Response) => {
     
     const body = req.body;
     connection.query('UPDATE pedidos_ventas set id_proveedor = ?, id_tipo = ?, importe = ?, fecha = ?, observacion = ?,path_imagen = ?, id_usuario = ? where id_pedido = ?', [body.id_proveedor, body.id_tipo, body.importe , body.fecha, body.observacion, body.path_imagen, body.id_usuario, body.id_pedido], (error: any, result: any) => {
@@ -94,7 +96,8 @@ pedidosventRoutes.post('/modificaPedidoVent', verificarToken ,  (req: Request, r
             return res.json({
                 estado: "success",
                 mensaje: "pedido modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({

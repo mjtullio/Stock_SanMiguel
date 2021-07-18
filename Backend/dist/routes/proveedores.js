@@ -8,7 +8,6 @@ const authentication_1 = require("../middlewares/authentication");
 const connectionMySQL_1 = __importDefault(require("../bin/connectionMySQL"));
 const proveedoresRoutes = express_1.Router();
 proveedoresRoutes.get('/muestraProveedores', authentication_1.verificarToken, (req, res) => {
-    const body = req.body;
     connectionMySQL_1.default.query('select * from proveedores order by id_proveedor', (error, result) => {
         if (error) {
             throw error;
@@ -17,7 +16,8 @@ proveedoresRoutes.get('/muestraProveedores', authentication_1.verificarToken, (r
             return res.json({
                 estado: "success",
                 mensaje: "proveedores encontrados",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -38,7 +38,8 @@ proveedoresRoutes.post('/muestraProv', authentication_1.verificarToken, (req, re
             return res.json({
                 estado: "success",
                 mensaje: "proveedor encontrado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -59,7 +60,8 @@ proveedoresRoutes.post('/updateProveedor', authentication_1.verificarToken, (req
             return res.json({
                 estado: "success",
                 mensaje: "proveedor modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -80,7 +82,8 @@ proveedoresRoutes.post('/agregarProveedor', authentication_1.verificarToken, (re
             return res.json({
                 estado: "success",
                 mensaje: "proveedor agregado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -101,7 +104,8 @@ proveedoresRoutes.post('/bajaProveedor', authentication_1.verificarToken, (req, 
             return res.json({
                 estado: "success",
                 mensaje: "proveedor dado de baja",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
