@@ -87,19 +87,19 @@ pedidosprovRoutes.post('/muestraPedidoProv', authentication_1.verificarToken, (r
 pedidosprovRoutes.post('/agregarPedidoProv', authentication_1.verificarToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
-        yield promesa_1.default("start transaction");
-        const insertPedido = yield promesa_1.default('INSERT INTO pedidos_proveedores (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,?,?,?,?,?,?)', [body.id_proveedor, body.id_tipo, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario]);
-        const nroPedido = yield promesa_1.default('SELECT max(id_pedidos_proveedores) as id FROM pedidos_proveedores');
+        yield promesa_1.default("START TRANSACTION;");
+        const insertPedido = yield promesa_1.default('INSERT INTO pedidos_proveedores (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,?,?,?,?,?,?);', [body.id_proveedor, body.id_tipo, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario]);
+        const nroPedido = yield promesa_1.default('SELECT max(id_pedidos_proveedores) as id FROM pedidos_proveedores;');
         for (let index = 0; index < body.detalles.length; index++) {
             let detalle = body.detalles[index];
             console.log(detalle);
-            yield promesa_1.default('INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,?,?,?,?)', [nroPedido[0].id, detalle[0], detalle[1], detalle[2], detalle[3]]);
+            yield promesa_1.default('INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,?,?,?,?);', [nroPedido[0].id, detalle[0], detalle[1], detalle[2], detalle[3]]);
         }
-        yield promesa_1.default("commit");
+        yield promesa_1.default("COMMIT;");
         res.json({ estado: "success", refreshToken: req.token });
     }
     catch (error) {
-        const rollback = yield promesa_1.default("rollback");
+        const rollback = yield promesa_1.default("ROLLBACK");
         res.json({ estado: "error", data: error, rollabck: rollback });
     }
 }));
@@ -126,23 +126,36 @@ pedidosprovRoutes.post('/modificaPedidoProv', authentication_1.verificarToken, (
     });
 });
 pedidosprovRoutes.post('/upload', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const imagen = req.files.imagen;
-    if (!req.files) {
-        res.status(400).json({
-            estado: 'error',
-            mensaje: 'No se subio el archivo'
-        });
+    try {
+        const imagen = req.files.imagen;
+        console.log(req);
+        const prov = req.body.id_proveedor;
+        const pedido = req.body.id_pedido;
+        if (!req.files) {
+            res.status(400).json({
+                estado: 'error',
+                mensaje: 'No se subio el archivo'
+            });
+        }
+        else if (!imagen.mimetype.includes('image')) {
+            res.status(400).json({
+                estado: 'error',
+                mensaje: 'Formato incorrecto'
+            });
+        }
+        else {
+            imagen.name = prov + '_' + pedido;
+            yield filesystem.guardarImagen('prueba', imagen);
+            yield promesa_1.default('UPDATE pedidos_proveedores set path_imagen = ? where id_pedidos_proveedores = ?', [prov + '_' + pedido, pedido]);
+            res.json({
+                estado: 'success',
+                data: imagen
+            });
+        }
     }
-    if (!imagen.mimetype.includes('image')) {
-        res.status(400).json({
-            estado: 'error',
-            mensaje: 'Formato incorrecto'
-        });
+    catch (error) {
+        const rollback = yield promesa_1.default("ROLLBACK");
+        res.json({ estado: "error", data: error, rollabck: rollback });
     }
-    yield filesystem.guardarImagen('prueba', imagen);
-    res.json({
-        estado: 'success',
-        data: imagen
-    });
 }));
 exports.default = pedidosprovRoutes;

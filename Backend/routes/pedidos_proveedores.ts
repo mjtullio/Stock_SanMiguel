@@ -82,26 +82,26 @@ pedidosprovRoutes.post('/agregarPedidoProv', verificarToken ,async (req: any, re
    
     try{
         const body = req.body;
-    
-            await query("start transaction");
-    
-            const insertPedido:any = await query('INSERT INTO pedidos_proveedores (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,?,?,?,?,?,?)', [body.id_proveedor, body.id_tipo, body.importe , body.fecha, body.observacion, body.path_imagen, body.id_usuario]);
             
-            const nroPedido:any =  await query('SELECT max(id_pedidos_proveedores) as id FROM pedidos_proveedores');
+            await query("START TRANSACTION;");
+    
+            const insertPedido:any = await query('INSERT INTO pedidos_proveedores (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,?,?,?,?,?,?);', [body.id_proveedor, body.id_tipo, body.importe , body.fecha, body.observacion, body.path_imagen, body.id_usuario]);
+            
+            const nroPedido:any =  await query('SELECT max(id_pedidos_proveedores) as id FROM pedidos_proveedores;');
             
             
             for (let index = 0; index < body.detalles.length; index ++) {
                 let detalle:Array<any> = body.detalles[index];
                 console.log(detalle);
-                await query('INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,?,?,?,?)', [nroPedido[0].id, detalle[0] ,detalle[1], detalle[2], detalle[3]]);
+                await query('INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,?,?,?,?);', [nroPedido[0].id, detalle[0] ,detalle[1], detalle[2], detalle[3]]);
             }
     
-            await query("commit");
+            await query("COMMIT;");
 
             res.json({estado: "success",  refreshToken: req.token}) 
     }
     catch(error){
-        const rollback = await query("rollback");
+        const rollback = await query("ROLLBACK");
         res.json({estado:"error", data:error, rollabck:rollback});
     }
 })
@@ -133,29 +133,37 @@ pedidosprovRoutes.post('/modificaPedidoProv', verificarToken ,  (req: any, res: 
 
 
 pedidosprovRoutes.post('/upload' ,async (req:any, res:Response )=>{
+    try {
+        const imagen:IfileUpload = req.files.imagen;
+        console.log(req);
+        
+        const prov = req.body.id_proveedor;
+        const pedido = req.body.id_pedido;
+        if(!req.files){
+            res.status(400).json({
+                estado:'error',
+                mensaje:'No se subio el archivo'
+            })
+        }else if(!imagen.mimetype.includes('image')){
+            res.status(400).json({
+                estado:'error',
+                mensaje:'Formato incorrecto'
+            })
+        }else{ 
+            imagen.name=prov+'_'+pedido; 
+            await filesystem.guardarImagen('prueba',imagen)
+            await query('UPDATE pedidos_proveedores set path_imagen = ? where id_pedidos_proveedores = ?', [prov+'_'+pedido , pedido])
 
-    const imagen:IfileUpload = req.files.imagen;
-    
-    if(!req.files){
-        res.status(400).json({
-            estado:'error',
-            mensaje:'No se subio el archivo'
-        })
+            res.json({
+                estado: 'success',
+                data:imagen
+            })
+        }
+    } catch (error) {
+        const rollback = await query("ROLLBACK");
+        res.json({estado:"error", data:error, rollabck:rollback});
     }
-
-    if(!imagen.mimetype.includes('image')){
-        res.status(400).json({
-            estado:'error',
-            mensaje:'Formato incorrecto'
-        })
-    }    
     
-    await filesystem.guardarImagen('prueba',imagen)
-    
-    res.json({
-        estado: 'success',
-        data:imagen
-    })
 })
 
 export default pedidosprovRoutes;
