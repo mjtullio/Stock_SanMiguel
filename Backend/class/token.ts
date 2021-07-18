@@ -2,7 +2,7 @@ import Jwt  from 'jsonwebtoken';
 
 class Token {
     private static seed:string= 'estaEsElSeed';
-    private static caducidad:string = '20s';
+    private static caducidad:string = '20d';
 
     constructor(){}
 

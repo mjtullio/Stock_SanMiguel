@@ -13,9 +13,114 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const authentication_1 = require("../middlewares/authentication");
+const connectionMySQL_1 = __importDefault(require("../bin/connectionMySQL"));
 const file_systeam_1 = __importDefault(require("../class/file_systeam"));
+const promesa_1 = __importDefault(require("../class/promesa"));
 const filesystem = new file_systeam_1.default;
 const pedidosprovRoutes = express_1.Router();
+pedidosprovRoutes.post('/muestraPedidosProv', authentication_1.verificarToken, (req, res) => {
+    const body = req.body;
+    connectionMySQL_1.default.query('select * from pedidos_proveedores where id_proveedor = ? order by id_pedidos_proveedores desc ', [body.id_proveedor], (error, result) => {
+        if (error) {
+            throw error;
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "pedidos proveedores encontrados",
+                data: result
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error query"
+            });
+        }
+    });
+});
+pedidosprovRoutes.get('/muestraPedidos', authentication_1.verificarToken, (req, res) => {
+    connectionMySQL_1.default.query('select * from pedidos_proveedores order by id_pedidos_proveedores desc ', (error, result) => {
+        if (error) {
+            throw error;
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "pedidos proveedores encontrados",
+                data: result
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error query"
+            });
+        }
+    });
+});
+pedidosprovRoutes.post('/muestraPedidoProv', authentication_1.verificarToken, (req, res) => {
+    const body = req.body;
+    connectionMySQL_1.default.query('select * from pedidos_proveedores where id_pedidos_proveedores = ?', [body.id_pedidos_proveedores], (error, result) => {
+        if (error) {
+            throw error;
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "pedidos proveedor encontrado",
+                data: result
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error query"
+            });
+        }
+    });
+});
+pedidosprovRoutes.post('/agregarPedidoProv', authentication_1.verificarToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const body = req.body;
+        yield promesa_1.default("start transaction");
+        const insertPedido = yield promesa_1.default('INSERT INTO pedidos_proveedores (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,?,?,?,?,?,?)', [body.id_proveedor, body.id_tipo, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario]);
+        const nroPedido = yield promesa_1.default('SELECT max(id_pedidos_proveedores) as id FROM pedidos_proveedores');
+        for (let index = 0; index < body.detalles.length; index++) {
+            let detalle = body.detalles[index];
+            console.log(detalle);
+            yield promesa_1.default('INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,?,?,?,?)', [nroPedido[0].id, detalle[0], detalle[1], detalle[2], detalle[3]]);
+        }
+        yield promesa_1.default("commit");
+        res.json({ estado: "success" });
+    }
+    catch (error) {
+        const rollback = yield promesa_1.default("rollback");
+        res.json({ estado: "error", data: error, rollabck: rollback });
+    }
+}));
+pedidosprovRoutes.post('/modificaPedidoProv', authentication_1.verificarToken, (req, res) => {
+    const body = req.body;
+    connectionMySQL_1.default.query('UPDATE pedidos_proveedores set id_proveedor = ?, id_tipo = ?, importe = ?, fecha = ?, observacion = ?,path_imagen = ?, id_usuario = ? where id_pedido = ?', [body.id_proveedor, body.id_tipo, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario, body.id_pedido], (error, result) => {
+        if (error) {
+            throw error;
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "pedido modificado",
+                data: result
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error Update"
+            });
+        }
+    });
+});
 pedidosprovRoutes.post('/upload', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const imagen = req.files.imagen;
     if (!req.files) {

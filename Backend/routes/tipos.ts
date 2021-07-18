@@ -4,7 +4,7 @@ import connection from "../bin/connectionMySQL";
 
 const tiposRoutes = Router(); 
 
-tiposRoutes.get('/muestratipos', verificarToken ,(req: Request, res: Response) => {
+tiposRoutes.post('/muestraTipoClase', verificarToken ,(req: Request, res: Response) => {
     const body = req.body;
     connection.query('select * from tipos where id_tipo = ? and clase = ?',[body.id_tipo , body.clase], (error: any, result: any) => {
         if (error) {
@@ -13,7 +13,7 @@ tiposRoutes.get('/muestratipos', verificarToken ,(req: Request, res: Response) =
         if (result != '') {
             return res.json({
                 estado: "success",
-                mensaje: "tipo usarios encontrados",
+                mensaje: "tipo clase encontrados",
                 data: result
             })
         } else {
@@ -26,7 +26,48 @@ tiposRoutes.get('/muestratipos', verificarToken ,(req: Request, res: Response) =
     })
 })
 
+tiposRoutes.post('/muestraXClase', verificarToken ,(req: Request, res: Response) => {
+    const body = req.body;
+    connection.query('select * from tipos where clase = ? order by id_tipo',[ body.clase], (error: any, result: any) => {
+        if (error) {
+            throw error
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "tipo encontrados",
+                data: result
+            })
+        } else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error query"
+            })
+        }
+    })
+})
 
+tiposRoutes.get('/muestraTipos', verificarToken ,(req: Request, res: Response) => {
+    const body = req.body;
+    connection.query('select * from tipos order by clase , id_tipo', (error: any, result: any) => {
+        if (error) {
+            throw error
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "tipos encontrados",
+                data: result
+            })
+        } else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error query"
+
+            })
+        }
+    })
+})
 tiposRoutes.post('/updatetipo', verificarToken, (req: Request, res: Response) => {
     const body = req.body;
     connection.query('update tipos set  id_tipo = ? , nombre = ? , clase = ? where id_tipo = ? and clase = ?', [body.id_tipo , body.nombre , body.clase], (error: any, result: any) => {

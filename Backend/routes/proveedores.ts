@@ -6,7 +6,7 @@ const proveedoresRoutes = Router();
 
 proveedoresRoutes.get('/muestraProveedores', verificarToken ,(req: Request, res: Response) => {
     const body = req.body;
-    connection.query('select * from proveedores', (error: any, result: any) => {
+    connection.query('select * from proveedores order by id_proveedor', (error: any, result: any) => {
         if (error) {
             throw error
         }
@@ -26,7 +26,7 @@ proveedoresRoutes.get('/muestraProveedores', verificarToken ,(req: Request, res:
     })
 })
 
-proveedoresRoutes.get('/muestraProv', verificarToken ,(req: Request, res: Response) => {
+proveedoresRoutes.post('/muestraProv', verificarToken ,(req: Request, res: Response) => {
     const body = req.body;
     connection.query('select * from proveedores  where id_proveedor = ?',[body.id_proveedor], (error: any, result: any) => {
         if (error) {
@@ -50,7 +50,7 @@ proveedoresRoutes.get('/muestraProv', verificarToken ,(req: Request, res: Respon
 
 proveedoresRoutes.post('/updateProveedor', verificarToken, (req: Request, res: Response) => {
     const body = req.body;
-    connection.query('update proveedores set  nombre = ? , cuil_cuit = ?, email = ?, localidad = ?, telefono = ?, activo = ? where id_proveedor = ?', [body.id_proveedor, body.nombre , body.cuil_cuit , body.email, body.localidad, body.telefono , body.activo], (error: any, result: any) => {
+    connection.query('update proveedores set  nombre = ? , cuil_cuit = ?, email = ?, localidad = ?, telefono = ?, activo = ? where id_proveedor = ?', [body.nombre , body.cuil_cuit , body.email, body.localidad, body.telefono , body.activo, body.id_proveedor], (error: any, result: any) => {
     
         if (error) {
             throw error
@@ -79,7 +79,29 @@ proveedoresRoutes.post('/agregarProveedor', verificarToken, (req: Request, res: 
         if (result != '') {
             return res.json({
                 estado: "success",
-                mensaje: "proveedor modificado",
+                mensaje: "proveedor agregado",
+                data: result
+            })
+        } else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error Update"
+            })
+        }
+    })
+})
+
+proveedoresRoutes.post('/bajaProveedor', verificarToken, (req: Request, res: Response) => {
+    const body = req.body;
+    connection.query('update proveedores activo = 0 where id_proveedor = ?', [body.id_proveedor], (error: any, result: any) => {
+    
+        if (error) {
+            throw error
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "proveedor dado de baja",
                 data: result
             })
         } else {

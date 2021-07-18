@@ -4,16 +4,16 @@ import connection from "../bin/connectionMySQL";
 const detallesRoutes = Router(); 
 
 
-detallesRoutes.get('/muestradetalles', verificarToken ,(req: Request, res: Response) => {
+detallesRoutes.post('/muestraDetallesPedido', verificarToken ,(req: Request, res: Response) => {
     const body = req.body;
-    connection.query('select * from detalles_pedidos_productos', (error: any, result: any) => {
+    connection.query('select * from detalles_pedidos_productos where id_pedido = ? order by id_detalles_pedidos_productos', [body.id_pedido ], (error: any, result: any) => {
         if (error) {
             throw error
         }
         if (result != '') {
             return res.json({
                 estado: "success",
-                mensaje: "detalles encontrados",
+                mensaje: "detalles de pedido encontrados",
                 data: result
             })
         } else {
@@ -26,7 +26,7 @@ detallesRoutes.get('/muestradetalles', verificarToken ,(req: Request, res: Respo
     })
 })
 
-detallesRoutes.get('/muestraDetalle', verificarToken ,(req: Request, res: Response) => {
+detallesRoutes.post('/muestraDetalle', verificarToken ,(req: Request, res: Response) => {
     const body = req.body;
     connection.query('select * from detalles_pedidos_productos where id_detalles_pedidos_productos = ?',[body.id_detalles_pedidos_productos], (error: any, result: any) => {
         if (error) {
@@ -50,7 +50,7 @@ detallesRoutes.get('/muestraDetalle', verificarToken ,(req: Request, res: Respon
 
 detallesRoutes.post('/updatedetalle', verificarToken, (req: Request, res: Response) => {
     const body = req.body;
-    connection.query('update detalles_pedidos_productos set  id_pedido = ?, tipo = ?, id_producto = ?, cantidad = ?, precio_unitario = ?, id_proveedor = ? where id_detalles_pedidos_productos = ?', [body.id_producto, body.nombre , body.id_tipo , body.id_proveedor, body.peso, body.precio , body.activo], (error: any, result: any) => {
+    connection.query('update detalles_pedidos_productos set  id_pedido = ?, id_tipo = ?, id_producto = ?, cantidad = ?, precio_unitario = ?, id_proveedor = ? where id_detalles_pedidos_productos = ?', [body.id_pedido, body.id_tipo, body.id_producto, body.cantidad , body.precio_unitario ,body.id_detalles_pedidos_productos], (error: any, result: any) => {
     
         if (error) {
             throw error
@@ -70,25 +70,27 @@ detallesRoutes.post('/updatedetalle', verificarToken, (req: Request, res: Respon
     })
 })
 
-detallesRoutes.post('/agregardetalle', verificarToken, (req: Request, res: Response) => {
+detallesRoutes.post('/eliminarDetalle', verificarToken ,(req: Request, res: Response) => {
     const body = req.body;
-    connection.query('INSERT INTO detalles_pedidos_productos (id_pedido , tipo , id_producto , cantidad , precio_unitario , id_proveedor) VALUES (?,?,?,?,?,?)', [body.id_pedido , body.tipo , body.id_producto, body.cantidad, body.precio_unitario , body.id_proveedor], (error: any, result: any) => {
+    connection.query('delete from detalles_pedidos_productos where id_detalles_pedidos_productos = ?',[body.id_detalles_pedidos_productos], (error: any, result: any) => {
         if (error) {
             throw error
         }
         if (result != '') {
             return res.json({
                 estado: "success",
-                mensaje: "detalle modificado",
+                mensaje: "detalle eliminado",
                 data: result
             })
         } else {
             return res.json({
                 estado: "success",
-                mensaje: "Error Update"
+                mensaje: "Error query"
+
             })
         }
     })
 })
+
 
 export default detallesRoutes;

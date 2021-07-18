@@ -28,4 +28,4 @@ class Token {
 }
 exports.Token = Token;
 Token.seed = 'estaEsElSeed';
-Token.caducidad = '20s';
+Token.caducidad = '20d';

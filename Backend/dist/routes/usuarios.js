@@ -38,7 +38,7 @@ userRoutes.post('/login', (req, res) => {
 });
 userRoutes.get('/muestraUsuarios', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('select * from usuarios', (error, result) => {
+    connectionMySQL_1.default.query('select * from usuarios order by activo , id_usuario', (error, result) => {
         if (error) {
             throw error;
         }
@@ -57,7 +57,7 @@ userRoutes.get('/muestraUsuarios', authentication_1.verificarToken, (req, res) =
         }
     });
 });
-userRoutes.get('/muestraUs', authentication_1.verificarToken, (req, res) => {
+userRoutes.post('/muestraUs', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
     connectionMySQL_1.default.query('select * from usuarios where id_usuario = ?', [body.id_usuario], (error, result) => {
         if (error) {
@@ -80,7 +80,7 @@ userRoutes.get('/muestraUs', authentication_1.verificarToken, (req, res) => {
 });
 userRoutes.post('/update', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('update usuarios set nombre = ? , documento = ?, clave = md5(?), id_tipo = ?, activo = ?, telefono = ?, email = ?, contacto_emergencia = ? where id_usuario = ?', [body.id_usuario, body.nombre, body.documento, body.clave, body.id_tipo, body.activo, body.telefono, body.email, body.contacto_emergencia], (error, result) => {
+    connectionMySQL_1.default.query('update usuarios set nombre = ? , documento = ?, clave = md5(?), id_tipo = ?, activo = ?, telefono = ?, email = ?, contacto_emergencia = ? where id_usuario = ?', [body.nombre, body.documento, body.clave, body.id_tipo, body.activo, body.telefono, body.email, body.contacto_emergencia, body.id_usuario], (error, result) => {
         if (error) {
             throw error;
         }
@@ -99,4 +99,26 @@ userRoutes.post('/update', authentication_1.verificarToken, (req, res) => {
         }
     });
 });
+userRoutes.post('/bajaUsuario', authentication_1.verificarToken, (req, res) => {
+    const body = req.body;
+    connectionMySQL_1.default.query('update usuarios set activo = 0 where id_usuario = ?', [body.id_usuario], (error, result) => {
+        if (error) {
+            throw error;
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "usuario dado de baja",
+                data: result
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error baja"
+            });
+        }
+    });
+});
+//userRoutes.get('/',verificarToken,usuarios.token)
 exports.default = userRoutes;

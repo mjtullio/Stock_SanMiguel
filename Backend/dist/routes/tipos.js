@@ -7,7 +7,7 @@ const express_1 = require("express");
 const authentication_1 = require("../middlewares/authentication");
 const connectionMySQL_1 = __importDefault(require("../bin/connectionMySQL"));
 const tiposRoutes = express_1.Router();
-tiposRoutes.get('/muestratipos', authentication_1.verificarToken, (req, res) => {
+tiposRoutes.post('/muestraTipoClase', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
     connectionMySQL_1.default.query('select * from tipos where id_tipo = ? and clase = ?', [body.id_tipo, body.clase], (error, result) => {
         if (error) {
@@ -16,7 +16,49 @@ tiposRoutes.get('/muestratipos', authentication_1.verificarToken, (req, res) => 
         if (result != '') {
             return res.json({
                 estado: "success",
-                mensaje: "tipo usarios encontrados",
+                mensaje: "tipo clase encontrados",
+                data: result
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error query"
+            });
+        }
+    });
+});
+tiposRoutes.post('/muestraXClase', authentication_1.verificarToken, (req, res) => {
+    const body = req.body;
+    connectionMySQL_1.default.query('select * from tipos where clase = ? order by id_tipo', [body.clase], (error, result) => {
+        if (error) {
+            throw error;
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "tipo encontrados",
+                data: result
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error query"
+            });
+        }
+    });
+});
+tiposRoutes.get('/muestraTipos', authentication_1.verificarToken, (req, res) => {
+    const body = req.body;
+    connectionMySQL_1.default.query('select * from tipos order by clase , id_tipo', (error, result) => {
+        if (error) {
+            throw error;
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "tipos encontrados",
                 data: result
             });
         }

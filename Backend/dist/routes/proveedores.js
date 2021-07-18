@@ -9,7 +9,7 @@ const connectionMySQL_1 = __importDefault(require("../bin/connectionMySQL"));
 const proveedoresRoutes = express_1.Router();
 proveedoresRoutes.get('/muestraProveedores', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('select * from proveedores', (error, result) => {
+    connectionMySQL_1.default.query('select * from proveedores order by id_proveedor', (error, result) => {
         if (error) {
             throw error;
         }
@@ -28,7 +28,7 @@ proveedoresRoutes.get('/muestraProveedores', authentication_1.verificarToken, (r
         }
     });
 });
-proveedoresRoutes.get('/muestraProv', authentication_1.verificarToken, (req, res) => {
+proveedoresRoutes.post('/muestraProv', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
     connectionMySQL_1.default.query('select * from proveedores  where id_proveedor = ?', [body.id_proveedor], (error, result) => {
         if (error) {
@@ -51,7 +51,7 @@ proveedoresRoutes.get('/muestraProv', authentication_1.verificarToken, (req, res
 });
 proveedoresRoutes.post('/updateProveedor', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('update proveedores set  nombre = ? , cuil_cuit = ?, email = ?, localidad = ?, telefono = ?, activo = ? where id_proveedor = ?', [body.id_proveedor, body.nombre, body.cuil_cuit, body.email, body.localidad, body.telefono, body.activo], (error, result) => {
+    connectionMySQL_1.default.query('update proveedores set  nombre = ? , cuil_cuit = ?, email = ?, localidad = ?, telefono = ?, activo = ? where id_proveedor = ?', [body.nombre, body.cuil_cuit, body.email, body.localidad, body.telefono, body.activo, body.id_proveedor], (error, result) => {
         if (error) {
             throw error;
         }
@@ -79,7 +79,28 @@ proveedoresRoutes.post('/agregarProveedor', authentication_1.verificarToken, (re
         if (result != '') {
             return res.json({
                 estado: "success",
-                mensaje: "proveedor modificado",
+                mensaje: "proveedor agregado",
+                data: result
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error Update"
+            });
+        }
+    });
+});
+proveedoresRoutes.post('/bajaProveedor', authentication_1.verificarToken, (req, res) => {
+    const body = req.body;
+    connectionMySQL_1.default.query('update proveedores activo = 0 where id_proveedor = ?', [body.id_proveedor], (error, result) => {
+        if (error) {
+            throw error;
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "proveedor dado de baja",
                 data: result
             });
         }
