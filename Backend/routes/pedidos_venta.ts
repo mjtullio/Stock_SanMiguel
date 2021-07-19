@@ -1,12 +1,9 @@
 import  {Router, Response ,Request}  from "express";
 import {verificarToken} from "../middlewares/authentication";
 import connection from "../bin/connectionMySQL";
-import {IfileUpload} from "../interfaces/file_upload";
-import FileSystem from "../class/file_systeam";
 import bodyParser from "body-parser";
 import query from "../class/promesa";
 
-const filesystem = new FileSystem; 
 
 const pedidosventRoutes = Router(); 
 
@@ -61,9 +58,9 @@ pedidosventRoutes.post('/AgregaPedidoVent', verificarToken ,async (req: any, res
     try{
         const body = req.body;
     
-            await query("start transaction");
+            await query("START TRANSACTION");
     
-            const insertPedido:any = await query('INSERT INTO pedidos_ventas (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,?,?,?,?,?,?)', [body.id_proveedor, body.id_tipo, body.importe , body.fecha, body.observacion, body.path_imagen, body.id_usuario]);
+            const insertPedido:any = await query("INSERT INTO pedidos_ventas (id_proveedor, id_tipo, importe , fecha, observacion, id_usuario) VALUES (7,'VENT',?,?,?,?)", [ body.importe , body.fecha, body.observacion,body.id_usuario]);
             
             const nroPedido:any =  await query('SELECT max(id_pedidos_ventas) as id FROM pedidos_ventas');
             
@@ -71,15 +68,15 @@ pedidosventRoutes.post('/AgregaPedidoVent', verificarToken ,async (req: any, res
             for (let index = 0; index < body.detalles.length; index ++) {
                 let detalle:Array<any> = body.detalles[index];
                 console.log(detalle);
-                await query('INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,?,?,?,?)', [nroPedido[0].id, detalle[0] ,detalle[1], detalle[2], detalle[3]]);
+                await query("INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,'VENT',?,?,?)", [nroPedido[0].id,detalle[0], detalle[1], detalle[2]]);
             }
     
-            await query("commit");
+            await query("COMMIT");
 
             res.json({estado: "success",  refreshToken: req.token}) 
     }
     catch(error){
-        const rollback = await query("rollback");
+        const rollback = await query("ROLLBACK");
         res.json({estado:"error", data:error, rollabck:rollback});
     }
 })
@@ -87,7 +84,7 @@ pedidosventRoutes.post('/AgregaPedidoVent', verificarToken ,async (req: any, res
 pedidosventRoutes.post('/modificaPedidoVent', verificarToken ,  (req: any, res: Response) => {
     
     const body = req.body;
-    connection.query('UPDATE pedidos_ventas set id_proveedor = ?, id_tipo = ?, importe = ?, fecha = ?, observacion = ?,path_imagen = ?, id_usuario = ? where id_pedido = ?', [body.id_proveedor, body.id_tipo, body.importe , body.fecha, body.observacion, body.path_imagen, body.id_usuario, body.id_pedido], (error: any, result: any) => {
+    connection.query('UPDATE pedidos_ventas set  importe = ?, fecha = ?, observacion = ?, id_usuario = ? where id_pedido = ?', [ body.importe , body.fecha, body.observacion, body.id_usuario, body.id_pedido], (error: any, result: any) => {
     
         if (error) {
             throw error
@@ -108,32 +105,5 @@ pedidosventRoutes.post('/modificaPedidoVent', verificarToken ,  (req: any, res: 
     })
 })
 
-
-
-pedidosventRoutes.post('/upload' ,async (req:any, res:Response )=>{
-
-    const imagen:IfileUpload = req.files.imagen;
-    
-    if(!req.files){
-        res.status(400).json({
-            estado:'error',
-            mensaje:'No se subio el archivo'
-        })
-    }
-
-    if(!imagen.mimetype.includes('image')){
-        res.status(400).json({
-            estado:'error',
-            mensaje:'Formato incorrecto'
-        })
-    }    
-    
-    await filesystem.guardarImagen('prueba',imagen)
-    
-    res.json({
-        estado: 'success',
-        data:imagen
-    })
-})
 
 export default pedidosventRoutes;

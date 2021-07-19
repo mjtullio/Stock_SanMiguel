@@ -88,12 +88,12 @@ pedidosprovRoutes.post('/agregarPedidoProv', authentication_1.verificarToken, (r
     try {
         const body = req.body;
         yield promesa_1.default("START TRANSACTION;");
-        const insertPedido = yield promesa_1.default('INSERT INTO pedidos_proveedores (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,?,?,?,?,?,?);', [body.id_proveedor, body.id_tipo, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario]);
+        const insertPedido = yield promesa_1.default("INSERT INTO pedidos_proveedores (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,'PROV',?,?,?,?,?);", [body.id_proveedor, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario]);
         const nroPedido = yield promesa_1.default('SELECT max(id_pedidos_proveedores) as id FROM pedidos_proveedores;');
         for (let index = 0; index < body.detalles.length; index++) {
             let detalle = body.detalles[index];
             console.log(detalle);
-            yield promesa_1.default('INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,?,?,?,?);', [nroPedido[0].id, detalle[0], detalle[1], detalle[2], detalle[3]]);
+            yield promesa_1.default("INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,'PROV',?,?,?);", [nroPedido[0].id, detalle[0], detalle[1], detalle[2]]);
         }
         yield promesa_1.default("COMMIT;");
         res.json({ estado: "success", refreshToken: req.token });
@@ -105,7 +105,7 @@ pedidosprovRoutes.post('/agregarPedidoProv', authentication_1.verificarToken, (r
 }));
 pedidosprovRoutes.post('/modificaPedidoProv', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('UPDATE pedidos_proveedores set id_proveedor = ?, id_tipo = ?, importe = ?, fecha = ?, observacion = ?,path_imagen = ?, id_usuario = ? where id_pedido = ?', [body.id_proveedor, body.id_tipo, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario, body.id_pedido], (error, result) => {
+    connectionMySQL_1.default.query('UPDATE pedidos_proveedores set id_proveedor = ?, importe = ?, fecha = ?, observacion = ?,path_imagen = ?, id_usuario = ? where id_pedido = ?', [body.id_proveedor, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario, body.id_pedido], (error, result) => {
         if (error) {
             throw error;
         }
