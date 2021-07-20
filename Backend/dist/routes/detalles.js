@@ -39,7 +39,8 @@ detallesRoutes.post('/muestraDetalle', authentication_1.verificarToken, (req, re
             return res.json({
                 estado: "success",
                 mensaje: "detalle encontrado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -60,7 +61,8 @@ detallesRoutes.post('/updatedetalle', authentication_1.verificarToken, (req, res
             return res.json({
                 estado: "success",
                 mensaje: "destalle modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {
@@ -81,7 +83,8 @@ detallesRoutes.post('/eliminarDetalle', authentication_1.verificarToken, (req, r
             return res.json({
                 estado: "success",
                 mensaje: "detalle eliminado",
-                data: result
+                data: result,
+                refreshToken: req.token
             });
         }
         else {

@@ -37,7 +37,8 @@ detallesRoutes.post('/muestraDetalle', verificarToken ,(req: any, res: Response)
             return res.json({
                 estado: "success",
                 mensaje: "detalle encontrado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -60,7 +61,8 @@ detallesRoutes.post('/updatedetalle', verificarToken, (req: any, res: Response) 
             return res.json({
                 estado: "success",
                 mensaje: "destalle modificado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({
@@ -81,7 +83,8 @@ detallesRoutes.post('/eliminarDetalle', verificarToken ,(req: any, res: Response
             return res.json({
                 estado: "success",
                 mensaje: "detalle eliminado",
-                data: result
+                data: result,
+                refreshToken: req.token
             })
         } else {
             return res.json({

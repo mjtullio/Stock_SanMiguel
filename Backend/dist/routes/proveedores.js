@@ -96,7 +96,7 @@ proveedoresRoutes.post('/agregarProveedor', authentication_1.verificarToken, (re
 });
 proveedoresRoutes.post('/bajaProveedor', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('update proveedores activo = 0 where id_proveedor = ?', [body.id_proveedor], (error, result) => {
+    connectionMySQL_1.default.query('update proveedores set activo = 0 where id_proveedor = ?', [body.id_proveedor], (error, result) => {
         if (error) {
             throw error;
         }

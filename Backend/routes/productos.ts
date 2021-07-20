@@ -98,7 +98,7 @@ productosRoutes.post('/updateproducto', verificarToken, (req: any, res: Response
 
 productosRoutes.post('/bajaProducto', verificarToken, (req: any, res: Response) => {
     const body = req.body;
-    connection.query('update productos activo = 0 where id_producto = ?', [body.id_producto], (error: any, result: any) => {
+    connection.query('update productos set activo = 0 where id_producto = ?', [body.id_producto], (error: any, result: any) => {
     
         if (error) {
             throw error

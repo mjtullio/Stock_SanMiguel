@@ -96,7 +96,7 @@ productosRoutes.post('/updateproducto', authentication_1.verificarToken, (req, r
 });
 productosRoutes.post('/bajaProducto', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('update productos activo = 0 where id_producto = ?', [body.id_producto], (error, result) => {
+    connectionMySQL_1.default.query('update productos set activo = 0 where id_producto = ?', [body.id_producto], (error, result) => {
         if (error) {
             throw error;
         }
