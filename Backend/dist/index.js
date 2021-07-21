@@ -15,6 +15,7 @@ const pedidos_venta_1 = __importDefault(require("./routes/pedidos_venta"));
 const detalles_1 = __importDefault(require("./routes/detalles"));
 const stock_1 = __importDefault(require("./routes/stock"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const cors_1 = __importDefault(require("cors"));
 //Creando servidor web
 const server = new server_1.default();
 server.start(() => {
@@ -24,6 +25,8 @@ server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
 //upload
 server.app.use(express_fileupload_1.default());
+//cors
+server.app.use(cors_1.default());
 // Rutas de aplicacion
 server.app.use('/users', usuarios_1.default);
 server.app.use('/prov', proveedores_1.default);

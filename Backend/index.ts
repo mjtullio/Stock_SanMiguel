@@ -10,7 +10,7 @@ import pedidosventRoutes from './routes/pedidos_venta';
 import detallesRoutes from './routes/detalles';
 import stockRoutes from './routes/stock';
 import fileUpload from 'express-fileupload';
-
+import cors from 'cors';
 //Creando servidor web
 const server = new Server();
 
@@ -23,6 +23,9 @@ server.app.use(bodyParser.json())
 
 //upload
 server.app.use(fileUpload());
+
+//cors
+server.app.use(cors());
 
 // Rutas de aplicacion
 server.app.use('/users', userRoutes);
