@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-07-2021 a las 01:37:54
+-- Tiempo de generación: 23-07-2021 a las 00:00:40
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -119,13 +119,35 @@ CREATE TABLE `pedidos_ventas` (
 
 CREATE TABLE `productos` (
   `id_producto` int(11) NOT NULL,
-  `nombre` varchar(10) NOT NULL,
-  `id_tipo` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `id_tipo` varchar(5) NOT NULL,
   `id_proveedor` varchar(45) NOT NULL,
   `peso` varchar(15) DEFAULT NULL,
-  `precio` decimal(2,0) DEFAULT NULL,
+  `precio` float DEFAULT NULL,
   `activo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`id_producto`, `nombre`, `id_tipo`, `id_proveedor`, `peso`, `precio`, `activo`) VALUES
+(1, '9 Cabezas', 'CDP', '1', '70KG', 2500, 1),
+(2, 'Gourmet', 'CDP', '1', '50KG', 1700, 1),
+(3, '11 Cabezas', 'CDP', '2', '80KG', 2400, 1),
+(4, '7 Cabezas', 'CDP', '2', '75KG', 2200, 1),
+(5, 'Patitas', 'CEB', '3', '1.5KG', 800, 1),
+(6, 'Bocados Caprese', 'CEB', '3', '1.5KG', 900, 1),
+(7, 'Bastones', 'CEB', '3', '1.5KG', 800, 1),
+(8, 'Morron', 'HAM', '5', '500gr', 500, 1),
+(9, 'Verdura', 'HAM', '5', '500gr', 500, 1),
+(10, 'Jamon y Queso', 'HAM', '5', '500gr', 500, 1),
+(11, 'Langostinos', 'CEB', '6', '8KG', 8500, 1),
+(12, 'Rabas', 'CEB', '6', '1KG', 1500, 1),
+(13, 'Pata Muslo', 'TRO', '7', '1KG', 200, 1),
+(14, 'Jamon y Queso 1KG', 'ARR', '7', '1KG', 500, 1),
+(15, 'Gourmet', 'CDP', '4', '50KG', 1700, 1),
+(16, 'Pollo', 'HAM', '5', '500gr', 550, 1);
 
 -- --------------------------------------------------------
 
@@ -323,7 +345,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `stock`
@@ -335,7 +357,7 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
