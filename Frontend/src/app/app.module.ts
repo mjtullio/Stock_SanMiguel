@@ -5,51 +5,49 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule} from '@angular/material/button';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import { LoginComponent } from './pages/login/login.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTableModule} from '@angular/material/table';
-import { HttpClientModule } from '@angular/common/http';
-import { ProveedoresComponent } from './pages/proveedores/proveedores.component';
-import { PedidosproveedoresComponent } from './pages/pedidosproveedores/pedidosproveedores.component';
-import { StockComponent } from './pages/stock/stock.component';
-import { ProductosComponent } from './pages/productos/productos.component';
-import { PedidosventaComponent } from './pages/pedidosventa/pedidosventa.component';
-import { TiposComponent } from './pages/tipos/tipos.component';
-
-
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NavbarModule } from './components/navbar/navbar.module';
+import { HttpClientModule , HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './services/token.interceptor';
+// import { FormularioproveedoresModule } from './pages/formularioproveedores/formularioproveedores.module';
+import { LoginModule } from './pages/login/login.module';
+import { PedidosproveedoresModule } from './pages/pedidosproveedores/pedidosproveedores.module';
+import { PedidosventaModule } from './pages/pedidosventa/pedidosventa.module';
+import { ProductosModule } from './pages/productos/productos.module';
+import { ProveedoresModule } from './pages/proveedores/proveedores.module';
+import { StockModule } from './pages/stock/stock.module';
+import { TiposModule } from './pages/tipos/tipos.module';
+import { FormproveedoresModule } from './pages/formproveedores/formproveedores.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    ProveedoresComponent,
-    PedidosproveedoresComponent,
-    StockComponent,
-    ProductosComponent,
-    PedidosventaComponent,
-    TiposComponent,
-    
-    
+  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
     MatFormFieldModule,
-    MatTableModule,
+    NavbarModule,
     HttpClientModule,
+    // FormularioproveedoresModule,
+    LoginModule,
+    PedidosproveedoresModule,
+    PedidosventaModule,
+    ProductosModule,
+    ProveedoresModule,
+    StockModule,
+    TiposModule,
+    FormproveedoresModule
+
+
+   
   ],
-  providers: [],
+  providers: [
+    {provide:HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

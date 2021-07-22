@@ -1,18 +1,30 @@
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Usuario</mat-label>
-    <input matInput placeholder="Usuario">
-  </mat-form-field>
+<form [formGroup]="this.formLogin">
 
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Leave a comment</mat-label>
-    <input matInput placeholder="Contraseña">
-  </mat-form-field>
+    <mat-card class="example-card">
+        <mat-card-header>
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card-title>Login</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <mat-form-field appearance="outline">
+                    <mat-label>Documento</mat-label>
+                    <input matInput formControlName="documento">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input type="password" matInput formControlName="clave">
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color= "primary" (click)="hacerLogin()">Login</button>
+        </mat-card-actions>
+      </mat-card>
+
+
+   
 </form>
-
-<section>
-  <div class="example-button-row">
-    <button mat-raised-button color="primary">Ingresar</button>
-    <!-- <a mat-raised-button href="https://www.google.com/" target="_blank">Link</a> -->
-  </div>
-</section>

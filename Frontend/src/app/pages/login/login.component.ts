@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validator, Validators } from '@angular/forms';
+import { LoginService } from '../../services/login.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+
+
 
 
 @Component({
@@ -7,10 +13,50 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  hide = true;
-  constructor() { }
+
+  constructor(public fb: FormBuilder, private loginService:LoginService, private authService: AuthService, public router: Router) {
+    console.log("inicia constructor")
+   }
+
+  formLogin = this.fb.group({
+    documento:["", [Validators.required]],
+    clave:["", Validators.required]
+  });
+
+  hacerLogin(){
+    if(this.formLogin.valid){
+      this.loginService.login(this.formLogin.value).subscribe(resp=>{
+        console.log(resp)
+        if(resp.mensaje =="usuario encontrado"){
+          localStorage.setItem("token", resp.token);
+          this.authService.authenticate()
+          this.router.navigate(['/stock'])
+        }
+        else{
+          console.log(resp)
+          console.log("estado auth", this.authService.authState)
+        }
+      })
+    }
+    else{
+      console.log("formulario invalido")
+    }
+  }
 
   ngOnInit(): void {
+    console.log("inicia ngOnInit")
+  }
+
+  ngAfterContentInit(){
+    console.log("Inicia ngAfterContentInit")
+  }
+
+  ngAfterViewInit(){
+    console.log("Inicia ngAfterViewInit")
+  }
+
+  ngOnDestroy(){
+    console.log("inicia ngOnDestroy")
   }
 
 }

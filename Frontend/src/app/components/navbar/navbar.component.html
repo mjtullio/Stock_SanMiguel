@@ -4,16 +4,20 @@
             <!-- <button mat-icon-button>
             <mat-icon >menu</mat-icon>
           </button> -->
-            <h1>Distribuidora San Miguel</h1>
+            <a *ngIf="this.authService.isAuthenticate()" mat-button [routerLink]="'/stock'">
+                <h1>Distribuidora San Miguel</h1>
+            </a>
+
+
             <span class="menu-spacer"></span>
             <div>
-                <a mat-button [routerLink]="'/stock'"> Stock </a>
-                <a mat-button [routerLink]="'/productos'"> Productos </a>
-                <a mat-button [routerLink]="'/proveedores'"> Proveedores </a>
-                <a mat-button [routerLink]="'/pedidosproveedores'"> Pedidos a Proveedores </a>
-                <a mat-button [routerLink]="'/pedidosventa'"> Pedidos de Ventas </a>
-                <a mat-button [routerLink]="'/tipos'"> TIPOS </a>
-                <a mat-button [routerLink]="'/'"> Salir</a>
+                <a *ngIf="this.authService.isAuthenticate()" mat-button [routerLink]="'/stock'"> Stock </a>
+                <a *ngIf="this.authService.isAuthenticate()" mat-button [routerLink]="'/productos'"> Productos </a>
+                <a *ngIf="this.authService.isAuthenticate()" mat-button [routerLink]="'/proveedores'"> Proveedores </a>
+                <a *ngIf="this.authService.isAuthenticate()" mat-button [routerLink]="'/pedidosproveedores'"> Pedidos a Proveedores </a>
+                <a *ngIf="this.authService.isAuthenticate()" mat-button [routerLink]="'/pedidosventa'"> Pedidos de Ventas </a>
+                <a *ngIf="this.authService.isAuthenticate()" mat-button [routerLink]="'/tipos'"> TIPOS </a>
+                <a *ngIf="this.authService.isAuthenticate()" mat-button (click)="logout()"> Salir</a>
 
 
             </div>

@@ -1,40 +1,52 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { StockComponent } from './pages/stock/stock.component';
-import { ProductosComponent } from './pages/productos/productos.component';
-import { ProveedoresComponent } from './pages/proveedores/proveedores.component';
-import { PedidosproveedoresComponent } from './pages/pedidosproveedores/pedidosproveedores.component';
-import { PedidosventaComponent } from './pages/pedidosventa/pedidosventa.component';
-import { TiposComponent } from './pages/tipos/tipos.component';
+// import { LoginComponent } from './pages/login/login.component';
+import { LoginModule } from './pages/login/login.module';
+import { StockModule } from 'src/app/pages/stock/stock.module';
+import { ProductosModule } from 'src/app/pages/productos/productos.module';
+import { ProveedoresModule } from 'src/app/pages/proveedores/proveedores.module';
+import { PedidosproveedoresModule } from 'src/app/pages/pedidosproveedores/pedidosproveedores.module';
+import { PedidosventaModule } from 'src/app/pages/pedidosventa/pedidosventa.module';
+import { TiposModule } from 'src/app/pages/tipos/tipos.module';
+import { FormproveedoresModule } from 'src/app/pages/formproveedores/formproveedores.module';
 
 const routes: Routes = [
   {
-    path: "login", component: LoginComponent
+    path:"login",
+    loadChildren:()=> import('src/app/pages/login/login.module').then(m=>LoginModule)
+  },
+  {
+    path:"stock",
+    loadChildren:()=> import('src/app/pages/stock/stock.module').then(m=>StockModule)
+  },
+  {
+    path:"productos",
+    loadChildren:()=> import('src/app/pages/productos/productos.module').then(m=>ProductosModule)
   },
 
   {
-    path: "stock", component: StockComponent
+    path:"proveedores",
+    loadChildren:()=> import('src/app/pages/proveedores/proveedores.module').then(m=>ProveedoresModule)
   },
 
   {
-    path: "productos", component: ProductosComponent
+    path:"pedidosproveedores",
+    loadChildren:()=> import('src/app/pages/pedidosproveedores/pedidosproveedores.module').then(m=>PedidosproveedoresModule)
   },
 
   {
-    path: "proveedores", component: ProveedoresComponent
+    path:"pedidosventa",
+    loadChildren:()=> import('src/app/pages/pedidosventa/pedidosventa.module').then(m=>PedidosventaModule)
   },
 
   {
-    path: "pedidosproveedores", component: PedidosproveedoresComponent
+    path:"tipos",
+    loadChildren:()=> import('src/app/pages/tipos/tipos.module').then(m=>TiposModule)
   },
 
   {
-    path: "pedidosventa", component: PedidosventaComponent
-  },
-
-  {
-    path: "tipos", component: TiposComponent
+    path:"formproveedores",
+    loadChildren:()=> import('src/app/pages/formproveedores/formproveedores.module').then(m=>FormproveedoresModule)
   }
   
 ];
