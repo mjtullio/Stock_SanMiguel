@@ -4,9 +4,10 @@ import { MatTableModule } from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import {FormsModule} from '@angular/forms';
 import { FormproveedoresRoutingModule } from './formproveedores-routing.module';
 import { FormproveedoresComponent } from './formproveedores.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -20,7 +21,9 @@ import { FormproveedoresComponent } from './formproveedores.component';
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule
   ],
   exports: [
     FormproveedoresComponent

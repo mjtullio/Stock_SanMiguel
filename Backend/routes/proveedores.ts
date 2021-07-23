@@ -5,7 +5,7 @@ const proveedoresRoutes = Router();
 
 
 proveedoresRoutes.get('/muestraProveedores', verificarToken ,(req: any, res: Response) => {
-    connection.query('select * from proveedores order by id_proveedor', (error: any, result: any) => {
+    connection.query('select * from proveedores order by activo desc, id_proveedor', (error: any, result: any) => {
         if (error) {
             throw error
         }

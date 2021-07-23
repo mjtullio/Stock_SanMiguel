@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import { ProveedoresRoutingModule } from './proveedores-routing.module';
 import { ProveedoresComponent } from './proveedores.component';
+import { FormproveedoresModule } from '../formproveedores/formproveedores.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ProveedoresComponent } from './proveedores.component';
     CommonModule,
     ProveedoresRoutingModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    FormproveedoresModule
   ],
   exports: [
     ProveedoresComponent

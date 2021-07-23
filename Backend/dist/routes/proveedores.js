@@ -8,7 +8,7 @@ const authentication_1 = require("../middlewares/authentication");
 const connectionMySQL_1 = __importDefault(require("../bin/connectionMySQL"));
 const proveedoresRoutes = express_1.Router();
 proveedoresRoutes.get('/muestraProveedores', authentication_1.verificarToken, (req, res) => {
-    connectionMySQL_1.default.query('select * from proveedores order by id_proveedor', (error, result) => {
+    connectionMySQL_1.default.query('select * from proveedores order by activo desc, id_proveedor', (error, result) => {
         if (error) {
             throw error;
         }

@@ -54,7 +54,7 @@
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary">Editar</button><button
-          mat-raised-button color="primary">Eliminar</button>
+          mat-raised-button color="primary" (click)="bajaProveedor(element.id_proveedor)">Eliminar</button>
       </td>
     </ng-container>
 
@@ -71,5 +71,5 @@
 </section>
 
 <div id="comp-render" *ngIf="display">
-  <!-- <app-formularioproveedores></app-formularioproveedores> -->
+  <app-formproveedores></app-formproveedores>
 </div>
