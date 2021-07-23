@@ -21,4 +21,12 @@ export class ProveedoresService {
     return this.http.post<IrepBackend>(`http://localhost:3000/prov/agregarProveedor`,dataForm,{})
   }
 
+  updateProveedor(dataForm:{}){
+    return this.http.post<IrepBackend>(`http://localhost:3000/prov/updateProveedor`,dataForm,{})
+  }
+
+  muestraProveedor(id_proveedor: number){
+    return this.http.post<IrepBackend>(`http://localhost:3000/prov/muestraProv`,{id_proveedor: id_proveedor})
+  }
+
 }

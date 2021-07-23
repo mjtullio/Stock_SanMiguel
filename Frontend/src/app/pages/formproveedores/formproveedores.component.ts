@@ -11,7 +11,7 @@ import { Validators } from '@angular/forms';
 @Component({
   selector: 'app-formproveedores',
   templateUrl: './formproveedores.component.html',
-  styleUrls: ['./formproveedores.component.css']
+  styleUrls: ['./formproveedores.component.css'],
 })
 export class FormproveedoresComponent implements OnInit {
 

@@ -5,6 +5,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { ProveedoresRoutingModule } from './proveedores-routing.module';
 import { ProveedoresComponent } from './proveedores.component';
 import { FormproveedoresModule } from '../formproveedores/formproveedores.module';
+import { FormproveedoresupdateModule } from '../formproveedoresupdate/formproveedoresupdate.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FormproveedoresModule } from '../formproveedores/formproveedores.module
     ProveedoresRoutingModule,
     MatTableModule,
     MatButtonModule,
-    FormproveedoresModule
+    FormproveedoresModule,
+    FormproveedoresupdateModule
   ],
   exports: [
     ProveedoresComponent

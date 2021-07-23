@@ -9,6 +9,7 @@ import { PedidosproveedoresModule } from 'src/app/pages/pedidosproveedores/pedid
 import { PedidosventaModule } from 'src/app/pages/pedidosventa/pedidosventa.module';
 import { TiposModule } from 'src/app/pages/tipos/tipos.module';
 import { FormproveedoresModule } from 'src/app/pages/formproveedores/formproveedores.module';
+import { FormproveedoresupdateModule } from 'src/app/pages/formproveedoresupdate/formproveedoresupdate.module';
 
 const routes: Routes = [
   {
@@ -47,6 +48,11 @@ const routes: Routes = [
   {
     path:"formproveedores",
     loadChildren:()=> import('src/app/pages/formproveedores/formproveedores.module').then(m=>FormproveedoresModule)
+  },
+
+  {
+    path:"formproveedoresupdate",
+    loadChildren:()=> import('src/app/pages/formproveedoresupdate/formproveedoresupdate.module').then(m=>FormproveedoresupdateModule)
   }
   
 ];

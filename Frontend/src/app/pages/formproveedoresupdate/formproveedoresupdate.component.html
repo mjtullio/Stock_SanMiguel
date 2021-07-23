@@ -1,0 +1,52 @@
+    
+
+<div class="example-container">
+    <form [formGroup]="this.formProveedores">
+
+    <mat-form-field hintLabel="Max 50 caracteres" appearance="fill">
+        <mat-label>Cambiar nombre</mat-label>
+        <input matInput #input maxlength="50" formControlName="nombre">
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Ingrese datos</mat-label>
+        <input matInput #input maxlength="50" formControlName="localidad">
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Enter some input</mat-label>
+        <input matInput #input maxlength="50"  formControlName="telefono">
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Enter some input</mat-label>
+        <input matInput #input maxlength="50"  formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Enter some input</mat-label>
+        <input matInput #input maxlength="50" formControlName="cuil_cuit">
+    </mat-form-field>
+
+    <!-- <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Enter some input</mat-label>
+        <input matInput #input maxlength="50" placeholder="Activo" formControlName="activo">
+        <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint>
+    </mat-form-field> -->
+
+    <!-- <mat-form-field appearance="fill">
+        <mat-label>Cars</mat-label>
+        <select matNativeControl required>
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+        </select>
+    </mat-form-field> -->
+</form>
+</div>
+<section>
+    <div class="example-button-row">
+        <button mat-raised-button color="primary" (click)="actualizaProveedor()">Guardar</button>
+    </div>
+</section>

@@ -71,8 +71,30 @@ export class ProveedoresComponent implements OnInit {
   }
 
   display = false;
-  onPress() {
+  onPressA() {
     this.display = true;
+    this.displayupdate = false;
+
+    /*if you want the component to show and hide on click pressed, use 
+    use this line
+    this.display = !this.display;*/
+  }
+
+
+datos={};
+  displayupdate = false;
+  onPressE(idProveedor: number) {
+    this.datos ={
+      id_proveedor:idProveedor
+    }
+
+
+    this.displayupdate = true;
+    this.display = false;
+    // const jsonToString = JSON.stringify(this.datos);
+    console.log(this.datos);
+    
+    this.router.navigate([`/formproveedoresupdate/${this.datos}`])
     /*if you want the component to show and hide on click pressed, use 
     use this line
     this.display = !this.display;*/
