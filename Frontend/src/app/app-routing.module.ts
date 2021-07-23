@@ -18,12 +18,12 @@ const routes: Routes = [
   {
     path:"stock",
     loadChildren:()=> import('src/app/pages/stock/stock.module').then(m=>StockModule),
-    canActivate:[AuthGuard]
+    // canActivate:[AuthGuard]
   },
   {
     path:"productos",
     loadChildren:()=> import('src/app/pages/productos/productos.module').then(m=>ProductosModule),
-    canActivate:[AuthGuard]
+    // canActivate:[AuthGuard]
   },
 
   {
@@ -35,25 +35,25 @@ const routes: Routes = [
   {
     path:"pedidosproveedores",
     loadChildren:()=> import('src/app/pages/pedidosproveedores/pedidosproveedores.module').then(m=>PedidosproveedoresModule),
-    canActivate:[AuthGuard]
+    // canActivate:[AuthGuard]
   },
 
   {
     path:"pedidosventa",
     loadChildren:()=> import('src/app/pages/pedidosventa/pedidosventa.module').then(m=>PedidosventaModule),
-    canActivate:[AuthGuard]
+    // canActivate:[AuthGuard]
   },
 
   {
     path:"tipos",
     loadChildren:()=> import('src/app/pages/tipos/tipos.module').then(m=>TiposModule),
-    canActivate:[AuthGuard]
+    // canActivate:[AuthGuard]
   },
 
   {
     path:"formproveedores",
     loadChildren:()=> import('src/app/pages/formproveedores/formproveedores.module').then(m=>FormproveedoresModule),
-    canActivate:[AuthGuard]
+    // canActivate:[AuthGuard]
   }
   
 ];
