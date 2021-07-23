@@ -1,33 +1,126 @@
 import { Component, OnInit } from '@angular/core';
-
+import { LoginService } from 'src/app/services/login.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import IrepBackend from 'src/app//interfaces/IrespBackend';
+import { FormBuilder, NumberValueAccessor } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import { ProductosService } from 'src/app/services/productos.service';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css']
+  styleUrls: ['./productos.component.css'],
+  providers: [ProductosService]
+
 })
 
 export class ProductosComponent implements OnInit {
 
-  constructor() { }
+  public datosTabla: any = [];
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol','acciones'];
-  dataSource = ELEMENT_DATA;
+
+  constructor(private _ProductosService: ProductosService, private authService: AuthService, public router: Router, public fb: FormBuilder) { }
+
+
+  formProductos = this.fb.group({
+    id_producto: ["", Validators.required],
+    nombre: ["", Validators.required],
+    id_tipo: ["", Validators.required],
+    id_proveedor: ["", Validators.required],
+    peso: ["", Validators.required],
+    precio: ["", Validators.required],
+    activo: [1]
+    // activo: ["", Validators.required]
+
+  })
+
+  bajaProducto(idProducto: number) {
+    var txt;
+    var r = confirm("¿Borrar producto?");
+    if (r == true) {
+      this._ProductosService.bajaProducto(idProducto).subscribe(resp => {
+        console.log(resp);
+        alert("Producto dado de baja")
+        window.location.reload();
+
+      },
+        error => {
+          console.log(error);
+
+        }
+      )
+    }
+  }
+
+  displayedColumns: string[] = ['id_producto', 'nombre', 'id_tipo', 'id_proveedor', 'peso', 'precio', 'activo', 'acciones'];
+  dataSource = this.datosTabla;
+
+  editarProducto(idProducto: number){
+    this._ProductosService.muestraProducto(idProducto).subscribe((resp:any)=>{
+      const data = resp.data[0]
+      this.formProductos.get('id_producto')?.setValue(data.id_producto);
+      this.formProductos.get('nombre')?.setValue(data.nombre);
+      this.formProductos.get('id_tipo')?.setValue(data.id_tipo);
+      this.formProductos.get('id_proveedor')?.setValue(data.id_proveedor);
+      this.formProductos.get('peso')?.setValue(data.peso);
+      this.formProductos.get('precio')?.setValue(data.precio);
+      this.formProductos.get('activo')?.setValue(data.activo);
+      console.log(resp.data);
+      
+    })
+  }
+
+  actualizaProducto() {
+    
+    console.log (this.formProductos.value)
+    if (this.formProductos.valid) {
+      
+      this._ProductosService.updateProducto(this.formProductos.value).subscribe(resp => {
+        console.log(resp);
+        alert("Producto actualizado");
+        window.location.reload();
+        //this.router.navigate(['/proveedores']);
+        
+      },
+        error => {
+          console.log(error);
+  
+        }
+  
+  
+      )
+    }
+    
+  }
 
   ngOnInit(): void {
+    this._ProductosService.getProductos().subscribe(resp => {
+      this.datosTabla = resp.data;
+
+    }
+    )
+  }
+
+  display = false;
+  onPressA() {
+    this.display = true;
+    this.displayupdate = false;
+    
+    /*if you want the component to show and hide on click pressed, use 
+    use this line
+    this.display = !this.display;*/
+  }
+
+  displayupdate = false;
+  onPressE(idProducto: number) {
+    
+    this.displayupdate = true;
+    this.display = false;
+
+    this.editarProducto(idProducto);
+    /*if you want the component to show and hide on click pressed, use 
+    use this line
+    this.display = !this.display;*/
   }
 
 }
-
-
-const ELEMENT_DATA = [
-  {position: 1, name: 'TUVIEJA', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];

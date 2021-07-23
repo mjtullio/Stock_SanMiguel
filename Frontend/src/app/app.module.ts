@@ -19,6 +19,7 @@ import { StockModule } from './pages/stock/stock.module';
 import { TiposModule } from './pages/tipos/tipos.module';
 import { FormproveedoresModule } from './pages/formproveedores/formproveedores.module';
 import { FormtiposModule } from './pages/formtipos/formtipos.module';
+import { FormproductosModule } from './pages/formproductos/formproductos.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -41,7 +42,8 @@ import { FormtiposModule } from './pages/formtipos/formtipos.module';
     StockModule,
     TiposModule,
     FormproveedoresModule,
-    FormtiposModule
+    FormtiposModule,
+    FormproductosModule
 
 
    

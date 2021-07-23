@@ -8,7 +8,7 @@ const authentication_1 = require("../middlewares/authentication");
 const connectionMySQL_1 = __importDefault(require("../bin/connectionMySQL"));
 const productosRoutes = express_1.Router();
 productosRoutes.get('/muestraProductos', authentication_1.verificarToken, (req, res) => {
-    connectionMySQL_1.default.query('select * from productos order by activo , id_proveedor , nombre', (error, result) => {
+    connectionMySQL_1.default.query('select * from productos order by activo desc, id_proveedor , nombre', (error, result) => {
         if (error) {
             throw error;
         }
@@ -118,7 +118,7 @@ productosRoutes.post('/bajaProducto', authentication_1.verificarToken, (req, res
 });
 productosRoutes.post('/agregarproducto', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('INSERT INTO productos (nombre , id_tipo , id_proveedor , peso , precio , activo) VALUES (?,?,?,?,?,?)', [body.nombre, body.cuil_cuit, body.email, body.localidad, body.telefono, body.activo], (error, result) => {
+    connectionMySQL_1.default.query('INSERT INTO productos (nombre , id_tipo , id_proveedor , peso , precio , activo) VALUES (?,?,?,?,?,?)', [body.nombre, body.id_tipo, body.id_proveedor, body.peso, body.precio, body.activo], (error, result) => {
         if (error) {
             throw error;
         }

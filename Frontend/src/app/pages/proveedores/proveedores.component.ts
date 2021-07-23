@@ -115,10 +115,6 @@ export class ProveedoresComponent implements OnInit {
     this.display = !this.display;*/
   }
 
-
-  
-  
-
   displayupdate = false;
   onPressE(idProveedor: number) {
     

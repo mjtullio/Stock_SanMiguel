@@ -6,7 +6,7 @@ const productosRoutes = Router();
 
 productosRoutes.get('/muestraProductos', verificarToken ,(req: any, res: Response) => {
     
-    connection.query('select * from productos order by activo , id_proveedor , nombre', (error: any, result: any) => {
+    connection.query('select * from productos order by activo desc, id_proveedor , nombre', (error: any, result: any) => {
         if (error) {
             throw error
         }
@@ -121,7 +121,7 @@ productosRoutes.post('/bajaProducto', verificarToken, (req: any, res: Response) 
 
 productosRoutes.post('/agregarproducto', verificarToken, (req: any, res: Response) => {
     const body = req.body;
-    connection.query('INSERT INTO productos (nombre , id_tipo , id_proveedor , peso , precio , activo) VALUES (?,?,?,?,?,?)', [body.nombre , body.cuil_cuit , body.email, body.localidad, body.telefono , body.activo], (error: any, result: any) => {
+    connection.query('INSERT INTO productos (nombre , id_tipo , id_proveedor , peso , precio , activo) VALUES (?,?,?,?,?,?)', [body.nombre , body.id_tipo , body.id_proveedor, body.peso, body.precio , body.activo], (error: any, result: any) => {
         if (error) {
             throw error
         }
