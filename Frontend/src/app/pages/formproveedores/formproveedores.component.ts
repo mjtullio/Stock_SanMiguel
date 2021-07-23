@@ -33,8 +33,8 @@ export class FormproveedoresComponent implements OnInit {
       this._ProveedoresService.agregarProveedor(this.formProveedores.value).subscribe(resp => {
         console.log(resp);
         alert("Proveedor agregado");
-        window.location.reload();
-        // this.router.navigate(['/proveedores']);
+        //window.location.reload();
+        this.router.navigate(['/proveedores']);
 
 
       },

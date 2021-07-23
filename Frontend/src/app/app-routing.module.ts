@@ -9,8 +9,7 @@ import { PedidosproveedoresModule } from 'src/app/pages/pedidosproveedores/pedid
 import { PedidosventaModule } from 'src/app/pages/pedidosventa/pedidosventa.module';
 import { TiposModule } from 'src/app/pages/tipos/tipos.module';
 import { FormproveedoresModule } from 'src/app/pages/formproveedores/formproveedores.module';
-import { FormproveedoresupdateModule } from 'src/app/pages/formproveedoresupdate/formproveedoresupdate.module';
-
+import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path:"login",
@@ -18,41 +17,43 @@ const routes: Routes = [
   },
   {
     path:"stock",
-    loadChildren:()=> import('src/app/pages/stock/stock.module').then(m=>StockModule)
+    loadChildren:()=> import('src/app/pages/stock/stock.module').then(m=>StockModule),
+    canActivate:[AuthGuard]
   },
   {
     path:"productos",
-    loadChildren:()=> import('src/app/pages/productos/productos.module').then(m=>ProductosModule)
+    loadChildren:()=> import('src/app/pages/productos/productos.module').then(m=>ProductosModule),
+    canActivate:[AuthGuard]
   },
 
   {
     path:"proveedores",
-    loadChildren:()=> import('src/app/pages/proveedores/proveedores.module').then(m=>ProveedoresModule)
+    loadChildren:()=> import('src/app/pages/proveedores/proveedores.module').then(m=>ProveedoresModule),
+    //canActivate:[AuthGuard]
   },
 
   {
     path:"pedidosproveedores",
-    loadChildren:()=> import('src/app/pages/pedidosproveedores/pedidosproveedores.module').then(m=>PedidosproveedoresModule)
+    loadChildren:()=> import('src/app/pages/pedidosproveedores/pedidosproveedores.module').then(m=>PedidosproveedoresModule),
+    canActivate:[AuthGuard]
   },
 
   {
     path:"pedidosventa",
-    loadChildren:()=> import('src/app/pages/pedidosventa/pedidosventa.module').then(m=>PedidosventaModule)
+    loadChildren:()=> import('src/app/pages/pedidosventa/pedidosventa.module').then(m=>PedidosventaModule),
+    canActivate:[AuthGuard]
   },
 
   {
     path:"tipos",
-    loadChildren:()=> import('src/app/pages/tipos/tipos.module').then(m=>TiposModule)
+    loadChildren:()=> import('src/app/pages/tipos/tipos.module').then(m=>TiposModule),
+    canActivate:[AuthGuard]
   },
 
   {
     path:"formproveedores",
-    loadChildren:()=> import('src/app/pages/formproveedores/formproveedores.module').then(m=>FormproveedoresModule)
-  },
-
-  {
-    path:"formproveedoresupdate",
-    loadChildren:()=> import('src/app/pages/formproveedoresupdate/formproveedoresupdate.module').then(m=>FormproveedoresupdateModule)
+    loadChildren:()=> import('src/app/pages/formproveedores/formproveedores.module').then(m=>FormproveedoresModule),
+    canActivate:[AuthGuard]
   }
   
 ];

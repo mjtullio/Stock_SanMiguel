@@ -5,12 +5,15 @@ import {MatButtonModule} from '@angular/material/button';
 import { ProveedoresRoutingModule } from './proveedores-routing.module';
 import { ProveedoresComponent } from './proveedores.component';
 import { FormproveedoresModule } from '../formproveedores/formproveedores.module';
-import { FormproveedoresupdateModule } from '../formproveedoresupdate/formproveedoresupdate.module';
+
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
-    ProveedoresComponent,
-  
+    ProveedoresComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +21,11 @@ import { FormproveedoresupdateModule } from '../formproveedoresupdate/formprovee
     MatTableModule,
     MatButtonModule,
     FormproveedoresModule,
-    FormproveedoresupdateModule
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule
   ],
   exports: [
     ProveedoresComponent

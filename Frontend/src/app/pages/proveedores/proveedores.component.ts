@@ -4,7 +4,7 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import IrepBackend from 'src/app//interfaces/IrespBackend';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, NumberValueAccessor } from '@angular/forms';
 import { Validators } from '@angular/forms';
 
 
@@ -18,19 +18,20 @@ import { Validators } from '@angular/forms';
 export class ProveedoresComponent implements OnInit {
 
   public datosTabla: any = [];
-
+  
 
   constructor(private _ProveedoresService: ProveedoresService, private authService: AuthService, public router: Router, public fb: FormBuilder) { }
 
   
   formProveedores = this.fb.group({
+    id_proveedor: ["", Validators.required],
     nombre: ["", Validators.required],
     localidad: ["", Validators.required],
     telefono: ["", Validators.required],
     email: ["", Validators.required],
-    cuit: ["", Validators.required],
-    // activo: [1]
-    activo: ["", Validators.required]
+    cuil_cuit: ["", Validators.required],
+    activo: [1]
+    //activo: ["", Validators.required]
 
   })
 
@@ -59,42 +60,72 @@ export class ProveedoresComponent implements OnInit {
 
 
   }
-
+  editarProveedor(idProveedor: number){
+    this._ProveedoresService.muestraProveedor(idProveedor).subscribe((resp:any)=>{
+      const data = resp.data[0]
+      this.formProveedores.get('id_proveedor')?.setValue(data.id_proveedor);
+      this.formProveedores.get('nombre')?.setValue(data.nombre);
+      this.formProveedores.get('localidad')?.setValue(data.localidad);
+      this.formProveedores.get('cuil_cuit')?.setValue(data.cuil_cuit);
+      this.formProveedores.get('email')?.setValue(data.email);
+      this.formProveedores.get('telefono')?.setValue(data.telefono);
+      console.log(resp.data);
+      
+      
+    })
+  }
+  actualizaProveedor() {
+    
+    console.log (this.formProveedores.value)
+    if (this.formProveedores.valid) {
+      
+      this._ProveedoresService.updateProveedor(this.formProveedores.value).subscribe(resp => {
+        console.log(resp);
+        alert("Proveedor actualizado");
+        window.location.reload();
+        //this.router.navigate(['/proveedores']);
+        
+      },
+        error => {
+          console.log(error);
+  
+        }
+  
+  
+      )
+    }
+    
+  }
   ngOnInit(): void {
     this._ProveedoresService.getProveedores().subscribe(resp => {
       this.datosTabla = resp.data;
 
     }
-
-
     )
+  
   }
 
   display = false;
   onPressA() {
     this.display = true;
     this.displayupdate = false;
-
+    
     /*if you want the component to show and hide on click pressed, use 
     use this line
     this.display = !this.display;*/
   }
 
 
-datos={};
+  
+  
+
   displayupdate = false;
   onPressE(idProveedor: number) {
-    this.datos ={
-      id_proveedor:idProveedor
-    }
-
-
+    
     this.displayupdate = true;
     this.display = false;
-    // const jsonToString = JSON.stringify(this.datos);
-    console.log(this.datos);
-    
-    this.router.navigate([`/formproveedoresupdate/${this.datos}`])
+
+    this.editarProveedor(idProveedor);
     /*if you want the component to show and hide on click pressed, use 
     use this line
     this.display = !this.display;*/

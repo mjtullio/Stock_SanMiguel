@@ -18,7 +18,6 @@ import { ProveedoresModule } from './pages/proveedores/proveedores.module';
 import { StockModule } from './pages/stock/stock.module';
 import { TiposModule } from './pages/tipos/tipos.module';
 import { FormproveedoresModule } from './pages/formproveedores/formproveedores.module';
-import { FormproveedoresupdateModule } from './pages/formproveedoresupdate/formproveedoresupdate.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,8 +39,7 @@ import { FormproveedoresupdateModule } from './pages/formproveedoresupdate/formp
     ProveedoresModule,
     StockModule,
     TiposModule,
-    FormproveedoresModule,
-    FormproveedoresupdateModule
+    FormproveedoresModule
 
 
    
