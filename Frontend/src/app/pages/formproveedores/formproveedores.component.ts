@@ -40,13 +40,13 @@ export class FormproveedoresComponent implements OnInit {
       },
         error => {
           console.log(error);
-  
+
         }
-  
-  
+
+
       )
     }
-    
+
   }
 
 

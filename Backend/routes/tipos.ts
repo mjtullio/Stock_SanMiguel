@@ -69,11 +69,12 @@ tiposRoutes.get('/muestraTipos', verificarToken ,(req: any, res: Response) => {
 
             })
         }
-    })
+    }) 
 })
 tiposRoutes.post('/updatetipo', verificarToken, (req: any, res: Response) => {
     const body = req.body;
-    connection.query('update tipos set nombre = ? , clase = ? where id_tipo = ? and clase = ?', [body.nombre , body.clase, body.id_tipo ,], (error: any, result: any) => {
+    
+    connection.query('update tipos set nombre = ? where id_tipo = ? and clase = ?', [body.nombre , body.id_tipo, body.clase], (error: any, result: any) => {
     
         if (error) {
             throw error
