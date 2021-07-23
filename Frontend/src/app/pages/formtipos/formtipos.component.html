@@ -1,0 +1,25 @@
+<div class="example-container">
+    <form [formGroup]="this.formTipos">
+
+      <mat-form-field hintLabel="Max 50 caracteres" appearance="fill">
+        <mat-label>Cambiar nombre</mat-label>
+        <input matInput maxlength="50" formControlName="nombre">
+      </mat-form-field>
+
+      <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Ingrese datos</mat-label>
+        <input matInput maxlength="50" formControlName="id_tipo" >
+      </mat-form-field>
+
+      <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Enter some input</mat-label>
+        <input matInput maxlength="50" formControlName="clase" >
+      </mat-form-field>
+
+    </form>
+  </div>
+  <section>
+    <div class="example-button-row">
+       <button mat-raised-button color="primary" (click)="agregarTipo()">Guardar</button> 
+    </div>
+  </section>
