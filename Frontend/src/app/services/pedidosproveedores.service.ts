@@ -21,10 +21,13 @@ export class PedidosproveedoresService {
     return this.http.post<IrepBackend>(`http://localhost:3000/pedidosprov/modificaPedidoProv`,dataForm,{})
   }
 
-  muestraPedidosProv(id_proveedor: number){
-    return this.http.post<IrepBackend>(`http://localhost:3000/pedidosprov/muestraPedidoProv`,{id_proveedor: id_proveedor})
+  muestraPedidosProv(id_pedidos_proveedores: number){
+    return this.http.post<IrepBackend>(`http://localhost:3000/pedidosprov/muestraPedidoProv`,{id_pedidos_proveedores: id_pedidos_proveedores})
   }
-  sendFile(dataForm:{}){
-    return this.http.post(`http://localhost:3000/post/upload`, dataForm,{})
+  sendFile(imagen:FormData){
+    return this.http.post(`http://localhost:3000/pedidosprov/upload`,  imagen,{})
+  }
+  eliminarPedidoProveedores(id_pedidos_proveedores: number){
+    return this.http.post<IrepBackend>(`http://localhost:3000/pedidosprov/eliminarPedidoProv`,{id_pedidos_proveedores: id_pedidos_proveedores})
   }
 }

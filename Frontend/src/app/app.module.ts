@@ -20,6 +20,9 @@ import { TiposModule } from './pages/tipos/tipos.module';
 import { FormproveedoresModule } from './pages/formproveedores/formproveedores.module';
 import { FormtiposModule } from './pages/formtipos/formtipos.module';
 import { FormproductosModule } from './pages/formproductos/formproductos.module';
+import { FormpedidosproveedoresModule } from './pages/formpedidosproveedores/formpedidosproveedores.module';
+import { FormpedidosventasModule } from './pages/formpedidosventas/formpedidosventas.module';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -43,7 +46,9 @@ import { FormproductosModule } from './pages/formproductos/formproductos.module'
     TiposModule,
     FormproveedoresModule,
     FormtiposModule,
-    FormproductosModule
+    FormproductosModule,
+    FormpedidosproveedoresModule,
+    FormpedidosventasModule
 
 
    

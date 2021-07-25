@@ -18,7 +18,7 @@ const connectionMySQL_1 = __importDefault(require("../bin/connectionMySQL"));
 const promesa_1 = __importDefault(require("../class/promesa"));
 const pedidosventRoutes = express_1.Router();
 pedidosventRoutes.get('/muestraPedidos', authentication_1.verificarToken, (req, res) => {
-    connectionMySQL_1.default.query('select * from pedidos_ventas order by id_pedidos_ventas desc ', (error, result) => {
+    connectionMySQL_1.default.query('select *, (select count(*) from detalles_pedidos_productos where id_tipo = "VENT" and id_pedido =  id_pedidos_ventas) as cantidad_detalles from pedidos_ventas  order by  id_pedidos_ventas desc', (error, result) => {
         if (error) {
             throw error;
         }
@@ -61,27 +61,30 @@ pedidosventRoutes.post('/muestraPedidoVent', authentication_1.verificarToken, (r
     });
 });
 pedidosventRoutes.post('/AgregaPedidoVent', authentication_1.verificarToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const body = req.body;
-        yield promesa_1.default("START TRANSACTION");
-        const insertPedido = yield promesa_1.default("INSERT INTO pedidos_ventas (id_proveedor, id_tipo, importe , fecha, observacion, id_usuario) VALUES (7,'VENT',?,?,?,?)", [body.importe, body.fecha, body.observacion, body.id_usuario]);
-        const nroPedido = yield promesa_1.default('SELECT max(id_pedidos_ventas) as id FROM pedidos_ventas');
-        for (let index = 0; index < body.detalles.length; index++) {
-            let detalle = body.detalles[index];
-            console.log(detalle);
-            yield promesa_1.default("INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,'VENT',?,?,?)", [nroPedido[0].id, detalle[0], detalle[1], detalle[2]]);
+    const body = req.body;
+    connectionMySQL_1.default.query("INSERT INTO pedidos_ventas (id_proveedor, id_tipo, importe , fecha, observacion, id_usuario) VALUES (7,'VENT',?,?,?,?)", [body.id_proveedor, body.importe, body.fecha, body.observacion, body.id_usuario], (error, result) => {
+        if (error) {
+            throw error;
         }
-        yield promesa_1.default("COMMIT");
-        res.json({ estado: "success", refreshToken: req.token });
-    }
-    catch (error) {
-        const rollback = yield promesa_1.default("ROLLBACK");
-        res.json({ estado: "error", data: error, rollabck: rollback });
-    }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "Pedido Agregado",
+                data: result,
+                refreshToken: req.token
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error Insert"
+            });
+        }
+    });
 }));
 pedidosventRoutes.post('/modificaPedidoVent', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('UPDATE pedidos_ventas set  importe = ?, fecha = ?, observacion = ?, id_usuario = ? where id_pedido = ?', [body.importe, body.fecha, body.observacion, body.id_usuario, body.id_pedido], (error, result) => {
+    connectionMySQL_1.default.query('UPDATE pedidos_ventas set id_proveedor = ?, importe = ?, fecha = ?, observacion = ? where where id_pedido = ?', [body.importe, body.fecha, body.observacion, body.id_pedido], (error, result) => {
         if (error) {
             throw error;
         }
@@ -101,4 +104,18 @@ pedidosventRoutes.post('/modificaPedidoVent', authentication_1.verificarToken, (
         }
     });
 });
+pedidosventRoutes.post('/eliminarPedidoVent', authentication_1.verificarToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const body = req.body;
+        yield promesa_1.default("START TRANSACTION;");
+        yield promesa_1.default('delete from detalles_pedidos_productos where id_tipo = "VENT" and id_pedido = ?', [body.id_pedidos_ventas]);
+        yield promesa_1.default('delete from pedidos_ventas where  id_pedidos_ventas = ?', [body.id_pedidos_ventas]);
+        yield promesa_1.default("COMMIT;");
+        res.json({ estado: "success", refreshToken: req.token });
+    }
+    catch (error) {
+        const rollback = yield promesa_1.default("ROLLBACK");
+        res.json({ estado: "error", data: error, rollabck: rollback });
+    }
+}));
 exports.default = pedidosventRoutes;

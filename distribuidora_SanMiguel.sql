@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 23-07-2021 a las 00:00:40
--- Versión del servidor: 10.4.18-MariaDB
--- Versión de PHP: 8.0.3
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 26-07-2021 a las 00:38:20
+-- Versión del servidor: 10.4.20-MariaDB
+-- Versión de PHP: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,10 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `distribuidora_SanMiguel`
+-- Base de datos: `distribuidora_sanmiguel`
 --
-CREATE DATABASE IF NOT EXISTS `distribuidora_SanMiguel` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `distribuidora_SanMiguel`;
+CREATE DATABASE IF NOT EXISTS `distribuidora_sanmiguel` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `distribuidora_sanmiguel`;
 
 -- --------------------------------------------------------
 
@@ -57,10 +57,10 @@ DELIMITER $$
 CREATE TRIGGER `insertDetalle_Stock` BEFORE INSERT ON `detalles_pedidos_productos` FOR EACH ROW BEGIN
   IF NEW.id_tipo = 'PROV'
     THEN
-      UPDATE stock SET stock.cantidad_producto = (stock.cantidad_producto + NEW.cantidad), stock.fecha_ultimo_ingreso = (SELECT fecha FROM pedidos_proveedores WHERE id_pedido= NEW.id_pedido) WHERE stock.id_producto = NEW.id_producto;
+      UPDATE stock SET stock.cantidad_producto = (stock.cantidad_producto + NEW.cantidad), stock.fecha_ultimo_ingreso = (SELECT fecha FROM pedidos_proveedores WHERE id_pedidos_proveedores= NEW.id_pedido) WHERE stock.id_producto = NEW.id_producto;
       ELSEIF NEW.id_tipo = 'VENT'
       		THEN 
-            	UPDATE stock SET stock.cantidad_producto = (stock.cantidad_producto - NEW.cantidad), stock.fecha_ultimo_egreso = (SELECT fecha FROM pedidos_ventas WHERE id_pedido= NEW.id_pedido)  WHERE stock.id_producto = NEW.id_producto;
+            	UPDATE stock SET stock.cantidad_producto = (stock.cantidad_producto - NEW.cantidad), stock.fecha_ultimo_egreso = (SELECT fecha FROM pedidos_ventas WHERE id_pedidos_ventas= NEW.id_pedido)  WHERE stock.id_producto = NEW.id_producto;
       END IF ;
 END
 $$
@@ -95,6 +95,13 @@ CREATE TABLE `pedidos_proveedores` (
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `pedidos_proveedores`
+--
+
+INSERT INTO `pedidos_proveedores` (`id_pedidos_proveedores`, `id_proveedor`, `id_tipo`, `importe`, `fecha`, `observacion`, `path_imagen`, `id_usuario`) VALUES
+(1, 2, 'PROV', 500, '2021-05-21 01:23:54', 'fsdfsdf', NULL, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -104,7 +111,7 @@ CREATE TABLE `pedidos_proveedores` (
 CREATE TABLE `pedidos_ventas` (
   `id_pedidos_ventas` int(11) NOT NULL,
   `id_proveedor` int(11) NOT NULL,
-  `id_tipo` int(11) NOT NULL,
+  `id_tipo` varchar(11) NOT NULL,
   `importe` float NOT NULL,
   `fecha` datetime NOT NULL,
   `observacion` varchar(200) DEFAULT NULL,
@@ -146,7 +153,7 @@ INSERT INTO `productos` (`id_producto`, `nombre`, `id_tipo`, `id_proveedor`, `pe
 (12, 'Rabas', 'CEB', '6', '1KG', 1500, 1),
 (13, 'Pata Muslo', 'TRO', '7', '1KG', 200, 1),
 (14, 'Jamon y Queso 1KG', 'ARR', '7', '1KG', 500, 1),
-(15, 'Gourmet', 'CDP', '4', '50KG', 1700, 1),
+(15, 'Gourmet', 'CDP', '4', '50KG', 1705, 1),
 (16, 'Pollo', 'HAM', '5', '500gr', 550, 1);
 
 -- --------------------------------------------------------
@@ -191,6 +198,28 @@ CREATE TABLE `stock` (
   `fecha_ultimo_ingreso` datetime DEFAULT NULL,
   `fecha_ultimo_egreso` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `stock`
+--
+
+INSERT INTO `stock` (`id_stock`, `id_producto`, `cantidad_producto`, `fecha_ultimo_ingreso`, `fecha_ultimo_egreso`) VALUES
+(2, 1, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(3, 2, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(4, 3, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(5, 4, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(6, 5, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(7, 6, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(8, 7, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(9, 8, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(10, 9, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(11, 10, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(12, 11, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(13, 12, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(14, 13, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(15, 14, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(16, 15, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
+(17, 16, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -321,43 +350,43 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `detalles_pedidos_productos`
 --
 ALTER TABLE `detalles_pedidos_productos`
-  MODIFY `id_detalles_pedidos_productos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detalles_pedidos_productos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos_proveedores`
 --
 ALTER TABLE `pedidos_proveedores`
-  MODIFY `id_pedidos_proveedores` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pedidos_proveedores` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos_ventas`
 --
 ALTER TABLE `pedidos_ventas`
-  MODIFY `id_pedidos_ventas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pedidos_ventas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id_stock` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_stock` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

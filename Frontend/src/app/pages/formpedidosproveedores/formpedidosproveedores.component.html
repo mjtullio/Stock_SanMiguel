@@ -1,1 +1,39 @@
-<p>formpedidosproveedores works!</p>
+
+<div class="example-container">
+    <form [formGroup]="this.formPedidosProveedores">
+    <mat-form-field hintLabel="Max 50 caracteres" appearance="fill">
+        <mat-label>Ingrese Id_proveedor</mat-label>
+        <input matInput #input maxlength="50" placeholder="Id_proveedor" formControlName="id_proveedor">
+        <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Max 50 caracteres" appearance="fill">
+        <mat-label>Ingrese Importe</mat-label>
+        <input matInput #input maxlength="50" placeholder="Importe" formControlName="importe">
+        <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Ingrese fecha</mat-label>
+        <input matInput #input maxlength="50" placeholder="Fecha" formControlName="fecha">
+        <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Observacion</mat-label>
+        <input matInput #input maxlength="50" placeholder="Observacion" formControlName="observacion">
+        <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Id_usuario</mat-label>
+        <input matInput #input maxlength="50" placeholder="Id_usuario" formControlName="id_usuario">
+        <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint>
+    </mat-form-field>
+</form>
+</div>
+<section>
+    <div class="example-button-row">
+        <button mat-raised-button color="primary" (click)="agregarPedidoProveedores()">Guardar</button>
+    </div>
+</section>

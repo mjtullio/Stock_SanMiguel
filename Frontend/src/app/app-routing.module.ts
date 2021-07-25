@@ -11,6 +11,9 @@ import { TiposModule } from 'src/app/pages/tipos/tipos.module';
 import { FormproveedoresModule } from 'src/app/pages/formproveedores/formproveedores.module';
 import { AuthGuard } from './guards/auth.guard';
 import { FormtiposModule } from './pages/formtipos/formtipos.module';
+import { FormpedidosproveedoresModule } from './pages/formpedidosproveedores/formpedidosproveedores.module';
+import { FormpedidosventasModule } from './pages/formpedidosventas/formpedidosventas.module';
+
 const routes: Routes = [
   {
     path:"login",
@@ -59,6 +62,18 @@ const routes: Routes = [
   {
     path:"formtipos",
     loadChildren:()=> import('src/app/pages/formtipos/formtipos.module').then(m=>FormtiposModule),
+    //canActivate:[AuthGuard]
+  },
+
+  {
+    path:"formpedidosproveedores",
+    loadChildren:()=> import('src/app/pages/formpedidosproveedores/formpedidosproveedores.module').then(m=>FormpedidosproveedoresModule),
+    //canActivate:[AuthGuard]
+  },
+
+  {
+    path:"formpedidosventas",
+    loadChildren:()=> import('src/app/pages/formpedidosventas/formpedidosventas.module').then(m=>FormpedidosventasModule),
     //canActivate:[AuthGuard]
   }
   

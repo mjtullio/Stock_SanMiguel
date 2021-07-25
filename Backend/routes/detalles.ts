@@ -73,28 +73,28 @@ detallesRoutes.post('/updatedetalle', verificarToken, (req: any, res: Response) 
     })
 })
 
-detallesRoutes.post('/eliminarDetalle', verificarToken ,(req: any, res: Response) => {
+
+detallesRoutes.post('/agregarDetalle', verificarToken ,async (req: any, res: Response) => {
     const body = req.body;
-    connection.query('delete from detalles_pedidos_productos where id_detalles_pedidos_productos = ?',[body.id_detalles_pedidos_productos], (error: any, result: any) => {
+    connection.query("INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,?,?,?,?);", [body.id_pedido, body.id_tipo, body.id_producto,body.cantidad,body.precio_unitario], (error: any, result: any) => {
         if (error) {
             throw error
         }
         if (result != '') {
             return res.json({
                 estado: "success",
-                mensaje: "detalle eliminado",
+                mensaje: "Detalle Agregado",
                 data: result,
                 refreshToken: req.token
             })
         } else {
             return res.json({
                 estado: "success",
-                mensaje: "Error query"
-
+                mensaje: "Error Insert"
             })
         }
     })
+    
 })
-
 
 export default detallesRoutes;

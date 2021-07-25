@@ -42,7 +42,7 @@ pedidosprovRoutes.post('/muestraPedidosProv', authentication_1.verificarToken, (
     });
 });
 pedidosprovRoutes.get('/muestraPedidos', authentication_1.verificarToken, (req, res) => {
-    connectionMySQL_1.default.query('select * from pedidos_proveedores order by id_pedidos_proveedores desc ', (error, result) => {
+    connectionMySQL_1.default.query('select *, (select count(*) from detalles_pedidos_productos where id_tipos = "PROV" and id_pedido = id_pedidos_proveedores) as cantidad_detalles from pedidos_proveedores  order by id_pedidos_proveedores desc ', (error, result) => {
         if (error) {
             throw error;
         }
@@ -84,17 +84,12 @@ pedidosprovRoutes.post('/muestraPedidoProv', authentication_1.verificarToken, (r
         }
     });
 });
-pedidosprovRoutes.post('/agregarPedidoProv', authentication_1.verificarToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+pedidosprovRoutes.post('/eliminarPedidoProv', authentication_1.verificarToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
         yield promesa_1.default("START TRANSACTION;");
-        const insertPedido = yield promesa_1.default("INSERT INTO pedidos_proveedores (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,'PROV',?,?,?,?,?);", [body.id_proveedor, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario]);
-        const nroPedido = yield promesa_1.default('SELECT max(id_pedidos_proveedores) as id FROM pedidos_proveedores;');
-        for (let index = 0; index < body.detalles.length; index++) {
-            let detalle = body.detalles[index];
-            console.log(detalle);
-            yield promesa_1.default("INSERT INTO detalles_pedidos_productos (id_pedido , id_tipo , id_producto , cantidad , precio_unitario ) VALUES (?,'PROV',?,?,?);", [nroPedido[0].id, detalle[0], detalle[1], detalle[2]]);
-        }
+        yield promesa_1.default('delete from detalles_pedidos_productos where id_tipo = "PROV" and id_pedido = ?', [body.id_pedidos_proveedores]);
+        yield promesa_1.default('delete from pedidos_proveedores where id_pedidos_proveedores = ?', [body.id_pedidos_proveedores]);
         yield promesa_1.default("COMMIT;");
         res.json({ estado: "success", refreshToken: req.token });
     }
@@ -103,9 +98,31 @@ pedidosprovRoutes.post('/agregarPedidoProv', authentication_1.verificarToken, (r
         res.json({ estado: "error", data: error, rollabck: rollback });
     }
 }));
+pedidosprovRoutes.post('/agregarPedidoProv', authentication_1.verificarToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const body = req.body;
+    connectionMySQL_1.default.query("INSERT INTO pedidos_proveedores (id_proveedor, id_tipo, importe , fecha, observacion,path_imagen, id_usuario) VALUES (?,'PROV',?,?,?,?,?);", [body.id_proveedor, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario], (error, result) => {
+        if (error) {
+            throw error;
+        }
+        if (result != '') {
+            return res.json({
+                estado: "success",
+                mensaje: "Pedido Agregado",
+                data: result,
+                refreshToken: req.token
+            });
+        }
+        else {
+            return res.json({
+                estado: "success",
+                mensaje: "Error Insert"
+            });
+        }
+    });
+}));
 pedidosprovRoutes.post('/modificaPedidoProv', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('UPDATE pedidos_proveedores set id_proveedor = ?, importe = ?, fecha = ?, observacion = ?,path_imagen = ?, id_usuario = ? where id_pedido = ?', [body.id_proveedor, body.importe, body.fecha, body.observacion, body.path_imagen, body.id_usuario, body.id_pedido], (error, result) => {
+    connectionMySQL_1.default.query('UPDATE pedidos_proveedores set id_proveedor = ?, importe = ?, fecha = ?, observacion = ? where id_pedidos_proveedores = ?', [body.id_proveedor, body.importe, body.fecha, body.observacion, body.id_pedidos_proveedores], (error, result) => {
         if (error) {
             throw error;
         }
@@ -129,8 +146,10 @@ pedidosprovRoutes.post('/upload', (req, res) => __awaiter(void 0, void 0, void 0
     try {
         const imagen = req.files.imagen;
         console.log(req);
-        const prov = req.body.id_proveedor;
-        const pedido = req.body.id_pedido;
+        const names = req.files.name;
+        var ids = req.files.name.split('_');
+        const prov = ids[0];
+        const pedido = ids[1];
         if (!req.files) {
             res.status(400).json({
                 estado: 'error',
@@ -146,7 +165,7 @@ pedidosprovRoutes.post('/upload', (req, res) => __awaiter(void 0, void 0, void 0
         else {
             imagen.name = prov + '_' + pedido;
             yield filesystem.guardarImagen('prueba', imagen);
-            yield promesa_1.default('UPDATE pedidos_proveedores set path_imagen = ? where id_pedidos_proveedores = ?', [prov + '_' + pedido, pedido]);
+            yield promesa_1.default('UPDATE pedidos_proveedores set path_imagen = ? where id_pedidos_proveedores = ?', ['pedidos_proveedores' + prov + '_' + pedido, pedido]);
             res.json({
                 estado: 'success',
                 data: imagen
