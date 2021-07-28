@@ -2,7 +2,13 @@
   <h1>Productos</h1>
 </section>
 
-
+<section>
+  <div class="example-button-row">
+    <button mat-raised-button color="primary" (click)="onPressA()">Agregar Productos</button>
+    <!-- <a mat-raised-button href="https://www.google.com/" target="_blank">Link</a> -->
+  </div>
+</section>
+<br>
 <div id="comp-render" *ngIf="display">
   <app-formproductos></app-formproductos>
   <br>
@@ -124,10 +130,4 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </section>
-<br>
-<section>
-  <div class="example-button-row">
-    <button mat-raised-button color="primary" (click)="onPressA()">Agregar Productos</button>
-    <!-- <a mat-raised-button href="https://www.google.com/" target="_blank">Link</a> -->
-  </div>
-</section>
+

@@ -1,3 +1,14 @@
 table {
     width: 100%;
   }
+
+  .formulario{
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .example-button-row {
+    justify-content: flex-end;
+}
