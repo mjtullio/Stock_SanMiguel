@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `distribuidora_sanmiguel`
 --
-CREATE DATABASE IF NOT EXISTS `distribuidora_sanmiguel` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `distribuidora_sanmiguel`;
+CREATE DATABASE IF NOT EXISTS `distribuidora_SanMiguel` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `distribuidora_SanMiguel`;
 
 -- --------------------------------------------------------
 
@@ -89,7 +89,7 @@ CREATE TABLE `pedidos_proveedores` (
   `id_proveedor` int(11) NOT NULL,
   `id_tipo` varchar(15) NOT NULL,
   `importe` float NOT NULL,
-  `fecha` datetime NOT NULL,
+  `fecha` date NOT NULL,
   `observacion` varchar(200) DEFAULT NULL,
   `path_imagen` varchar(100) DEFAULT NULL,
   `id_usuario` int(11) NOT NULL
@@ -113,7 +113,7 @@ CREATE TABLE `pedidos_ventas` (
   `id_proveedor` int(11) NOT NULL,
   `id_tipo` varchar(11) NOT NULL,
   `importe` float NOT NULL,
-  `fecha` datetime NOT NULL,
+  `fecha` date NOT NULL,
   `observacion` varchar(200) DEFAULT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -195,8 +195,8 @@ CREATE TABLE `stock` (
   `id_stock` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `cantidad_producto` int(11) NOT NULL,
-  `fecha_ultimo_ingreso` datetime DEFAULT NULL,
-  `fecha_ultimo_egreso` datetime DEFAULT NULL
+  `fecha_ultimo_ingreso` date DEFAULT NULL,
+  `fecha_ultimo_egreso` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -204,22 +204,22 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`id_stock`, `id_producto`, `cantidad_producto`, `fecha_ultimo_ingreso`, `fecha_ultimo_egreso`) VALUES
-(2, 1, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(3, 2, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(4, 3, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(5, 4, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(6, 5, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(7, 6, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(8, 7, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(9, 8, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(10, 9, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(11, 10, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(12, 11, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(13, 12, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(14, 13, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(15, 14, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(16, 15, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00'),
-(17, 16, 1000, '2021-07-25 00:00:00', '2021-07-25 00:00:00');
+(2, 1, 1000, '2021-07-25', '2021-07-25'),
+(3, 2, 1000, '2021-07-25', '2021-07-25'),
+(4, 3, 1000, '2021-07-25', '2021-07-25'),
+(5, 4, 1000, '2021-07-25', '2021-07-25'),
+(6, 5, 1000, '2021-07-25', '2021-07-25'),
+(7, 6, 1000, '2021-07-25', '2021-07-25'),
+(8, 7, 1000, '2021-07-25', '2021-07-25'),
+(9, 8, 1000, '2021-07-25', '2021-07-25'),
+(10, 9, 1000, '2021-07-25', '2021-07-25'),
+(11, 10, 1000, '2021-07-25', '2021-07-25'),
+(12, 11, 1000, '2021-07-25', '2021-07-25'),
+(13, 12, 1000, '2021-07-25', '2021-07-25'),
+(14, 13, 1000, '2021-07-25', '2021-07-25'),
+(15, 14, 1000, '2021-07-25', '2021-07-25'),
+(16, 15, 1000, '2021-07-25', '2021-07-25'),
+(17, 16, 1000, '2021-07-25', '2021-07-25');
 
 -- --------------------------------------------------------
 

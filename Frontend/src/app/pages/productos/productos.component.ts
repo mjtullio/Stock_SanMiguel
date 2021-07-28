@@ -41,8 +41,11 @@ export class ProductosComponent implements OnInit {
       this._ProductosService.bajaProducto(idProducto).subscribe(resp => {
         console.log(resp);
         alert("Producto dado de baja")
-        window.location.reload();
-
+       
+        this.ngOnInit()
+           
+  
+        
       },
         error => {
           console.log(error);
@@ -78,8 +81,7 @@ export class ProductosComponent implements OnInit {
       this._ProductosService.updateProducto(this.formProductos.value).subscribe(resp => {
         console.log(resp);
         alert("Producto actualizado");
-        window.location.reload();
-        //this.router.navigate(['/proveedores']);
+        this.ngOnInit()
         
       },
         error => {

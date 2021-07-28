@@ -26,8 +26,8 @@ export class FormtiposComponent implements OnInit {
       this._TiposService.agregarTipo(this.formTipos.value).subscribe(resp => {
         console.log(resp);
         alert("Tipo agregado");
-        window.location.reload();
-        //this.router.navigate(['/tipos']);
+        
+        this.router.navigate(['/tipos']);
 
       },
         error => {

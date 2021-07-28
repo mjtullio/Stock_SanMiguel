@@ -45,7 +45,7 @@ export class ProveedoresComponent implements OnInit {
       this._ProveedoresService.bajaProveedor(idProveedor).subscribe(resp => {
         console.log(resp);
         alert("Proveedor dado de baja")
-        window.location.reload();
+        this.ngOnInit()
   
       },
         error => {
@@ -82,8 +82,8 @@ export class ProveedoresComponent implements OnInit {
       this._ProveedoresService.updateProveedor(this.formProveedores.value).subscribe(resp => {
         console.log(resp);
         alert("Proveedor actualizado");
-        window.location.reload();
-        //this.router.navigate(['/proveedores']);
+        this.ngOnInit()
+        
         
       },
         error => {

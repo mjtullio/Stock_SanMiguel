@@ -51,8 +51,7 @@ formTipos = this.fb.group({
       this._TipoService.updateTipo(this.formTipos.value).subscribe(resp => {
         console.log(resp);
         alert("Tipo actualizado");
-        window.location.reload();
-        //this.router.navigate(['/proveedores']);
+        this.ngOnInit()
         
       },
         error => {

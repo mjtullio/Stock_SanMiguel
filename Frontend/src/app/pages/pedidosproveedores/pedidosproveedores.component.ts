@@ -32,10 +32,7 @@ export class PedidosproveedoresComponent implements OnInit {
     id_producto: ["", Validators.required] , 
     cantidad: ["", Validators.required] , precio_unitario: ["", Validators.required]
   })
-  formImagen  = this.fb.group({
-    id_proveedor: ["", Validators.required], 
-    id_pedidos_proveedores: ["", Validators.required], 
-  })
+
   displayedColumns: string[] = ['id_pedidos_proveedores','id_proveedor', 'id_tipo', 'importe' , 'fecha', 'observacion','path_imagen', 'id_usuario', 'cantidad_detalles','acciones'];
   dataSource = this.datosTabla;
 
@@ -63,8 +60,7 @@ export class PedidosproveedoresComponent implements OnInit {
       this._PedidosproveedoresService.modificaPedidoProv(this.formPedidosProveedores.value).subscribe(resp => {
         console.log(resp);
         alert("Pedido Proveedor actualizado");
-        window.location.reload();
-        //this.router.navigate(['/proveedores']);
+        this.ngOnInit()
         
       },
         error => {
@@ -80,6 +76,8 @@ export class PedidosproveedoresComponent implements OnInit {
 
   fileName=""
   file:any
+  idProveedor:any
+  id_pedidos_proveedores:any
 
   private validar(event:any):Boolean{
     const maxSize = 500000;
@@ -164,7 +162,7 @@ export class PedidosproveedoresComponent implements OnInit {
       this._DetallesService.agregarDetalle(this.formDetallesPedido.value).subscribe(resp => {
         console.log(resp);
         alert("Detalles agregado");
-        window.location.reload();
+        this.ngOnInit()
         
       },
         error => {
@@ -184,7 +182,8 @@ export class PedidosproveedoresComponent implements OnInit {
     
     // this.formDetallesPedido.get('id_pedidos_proveedores')?.setValue(id_pedidos_proveedores);
     // this.formDetallesPedido.get('id_proveedor')?.setValue(idProveedor);
-    this.fileName = idProveedor+"_"+id_pedidos_proveedores;
+    this.idProveedor =  idProveedor;
+    this.id_pedidos_proveedores = id_pedidos_proveedores;
     console.log (this.fileName)
   }
 
@@ -194,12 +193,22 @@ export class PedidosproveedoresComponent implements OnInit {
 
     if(validacion){
       let file = new FormData()
-      file.append('imagen', this.file[0], this.fileName);
+      file.append('imagen', this.file[0]);
+      file.append('id_proveedor' , this.idProveedor);
+      file.append('id_pedido', this.id_pedidos_proveedores);
 
       console.log(file)
       this._PedidosproveedoresService.sendFile(file).subscribe(resp=>{
-        console.log(resp)
-      })
+        console.log(resp);
+        alert("Imagen Agregada");
+        this.ngOnInit()
+
+        
+      },
+        error => {
+          console.log(error);
+        }
+      )
     }
 
   }
@@ -209,7 +218,8 @@ export class PedidosproveedoresComponent implements OnInit {
       this._PedidosproveedoresService.eliminarPedidoProveedores(id_pedidos_proveedores).subscribe(resp => {
         console.log(resp);
         alert("Pedido eliminado");
-        window.location.reload();
+        this.ngOnInit()
+
         
       },
         error => {

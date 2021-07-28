@@ -153,11 +153,12 @@ pedidosprovRoutes.post('/modificaPedidoProv', verificarToken ,  (req: any, res: 
 pedidosprovRoutes.post('/upload' , async (req:any, res:Response )=>{
     try {
         const imagen:IfileUpload = req.files.imagen;
+        const prov = req.body.id_proveedor;
+        const pedido = req.body.id_pedido;
         
-        const names = req.files.name;
-        var ids =  names.split('_');
-        const prov: number = ids[0];
-        const pedido: number = ids[1];
+        // var ids =  names.split('_');
+        // const prov: number = ids[0];
+        // const pedido: number = ids[1];
         if(!req.files){
             res.status(400).json({
                 estado:'error',
