@@ -153,9 +153,9 @@ pedidosprovRoutes.post('/modificaPedidoProv', verificarToken ,  (req: any, res: 
 pedidosprovRoutes.post('/upload' , async (req:any, res:Response )=>{
     try {
         const imagen:IfileUpload = req.files.imagen;
-        console.log(req);
+        
         const names = req.files.name;
-        var ids =  req.files.name.split('_');
+        var ids =  names.split('_');
         const prov: number = ids[0];
         const pedido: number = ids[1];
         if(!req.files){
@@ -171,7 +171,7 @@ pedidosprovRoutes.post('/upload' , async (req:any, res:Response )=>{
         }else{ 
             imagen.name=prov+'_'+pedido; 
             await filesystem.guardarImagen('prueba',imagen)
-            await query('UPDATE pedidos_proveedores set path_imagen = ? where id_pedidos_proveedores = ?', ['pedidos_proveedores'+prov+'_'+pedido , pedido])
+            await query('UPDATE pedidos_proveedores set path_imagen = ? where id_pedidos_proveedores = ?', ['pedidos_proveedores/'+prov+'_'+pedido , pedido])
 
             res.json({
                 estado: 'success',

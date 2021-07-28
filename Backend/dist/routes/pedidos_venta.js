@@ -40,7 +40,7 @@ pedidosventRoutes.get('/muestraPedidos', authentication_1.verificarToken, (req, 
 });
 pedidosventRoutes.post('/muestraPedidoVent', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('select * from pedidos_ventas where id_pedidos_ventas = ?', [body.pedidos_ventas], (error, result) => {
+    connectionMySQL_1.default.query('select * from pedidos_ventas where id_pedidos_ventas = ?', [body.id_pedidos_ventas], (error, result) => {
         if (error) {
             throw error;
         }
@@ -62,7 +62,7 @@ pedidosventRoutes.post('/muestraPedidoVent', authentication_1.verificarToken, (r
 });
 pedidosventRoutes.post('/AgregaPedidoVent', authentication_1.verificarToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
-    connectionMySQL_1.default.query("INSERT INTO pedidos_ventas (id_proveedor, id_tipo, importe , fecha, observacion, id_usuario) VALUES (7,'VENT',?,?,?,?)", [body.id_proveedor, body.importe, body.fecha, body.observacion, body.id_usuario], (error, result) => {
+    connectionMySQL_1.default.query("INSERT INTO pedidos_ventas (id_proveedor, id_tipo, importe , fecha, observacion, id_usuario) VALUES (7,'VENT',?,?,?,?)", [body.importe, body.fecha, body.observacion, body.id_usuario], (error, result) => {
         if (error) {
             throw error;
         }
@@ -84,7 +84,7 @@ pedidosventRoutes.post('/AgregaPedidoVent', authentication_1.verificarToken, (re
 }));
 pedidosventRoutes.post('/modificaPedidoVent', authentication_1.verificarToken, (req, res) => {
     const body = req.body;
-    connectionMySQL_1.default.query('UPDATE pedidos_ventas set id_proveedor = ?, importe = ?, fecha = ?, observacion = ? where where id_pedido = ?', [body.importe, body.fecha, body.observacion, body.id_pedido], (error, result) => {
+    connectionMySQL_1.default.query('UPDATE pedidos_ventas set importe = ?, fecha = ?, observacion = ? where id_pedidos_ventas = ?', [body.importe, body.fecha, body.observacion, body.id_pedidos_ventas], (error, result) => {
         if (error) {
             throw error;
         }

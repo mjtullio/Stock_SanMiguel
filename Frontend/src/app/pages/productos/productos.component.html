@@ -2,6 +2,67 @@
   <h1>Productos</h1>
 </section>
 
+
+<div id="comp-render" *ngIf="display">
+  <app-formproductos></app-formproductos>
+  <br>
+</div>
+
+<div id="comp-render" *ngIf="displayupdate">
+
+  <div class="example-container">
+    <form [formGroup]="this.formProductos">
+
+      <mat-form-field hintLabel="Max 50 caracteres" appearance="fill">
+        <mat-label>Cambiar nombre</mat-label>
+        <input matInput maxlength="50" formControlName="nombre">
+      </mat-form-field>
+
+      <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Cambiar ID Tipo</mat-label>
+        <input matInput maxlength="50" formControlName="id_tipo">
+      </mat-form-field>
+
+      <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Editar ID Proveedor</mat-label>
+        <input matInput maxlength="50" formControlName="id_proveedor">
+      </mat-form-field>
+
+      <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Editar Peso</mat-label>
+        <input matInput maxlength="50" formControlName="peso">
+      </mat-form-field>
+
+      <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+        <mat-label>Editar Precio</mat-label>
+        <input matInput maxlength="50" formControlName="precio">
+      </mat-form-field>
+
+      <!-- <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
+      <mat-label>Enter some input</mat-label>
+      <input matInput  maxlength="50" placeholder="Activo" formControlName="activo">
+      <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint>
+  </mat-form-field> -->
+
+      <!-- <mat-form-field appearance="fill">
+      <mat-label>Cars</mat-label>
+      <select matNativeControl required>
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+      </select>
+  </mat-form-field> -->
+    </form>
+  </div>
+  <section>
+    <div class="example-button-row">
+      <button mat-raised-button color="primary" (click)="actualizaProducto()">Guardar</button>
+    </div>
+  </section>
+  <br>
+</div>
+
 <section>
   <table mat-table [dataSource]="this.datosTabla" class="mat-elevation-z8">
 
@@ -53,8 +114,9 @@
     <!-- Acciones -->
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
-      <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="onPressE(element.id_producto)" style="margin-right: 10px;">Editar</button><button
-          mat-raised-button color="primary" (click)="bajaProducto(element.id_producto)">Eliminar</button>
+      <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary"
+          (click)="onPressE(element.id_producto)" style="margin-right: 10px;">Editar</button><button mat-raised-button
+          color="primary" (click)="bajaProducto(element.id_producto)">Eliminar</button>
       </td>
     </ng-container>
 
@@ -69,62 +131,3 @@
     <!-- <a mat-raised-button href="https://www.google.com/" target="_blank">Link</a> -->
   </div>
 </section>
-
-<br>
-<div id="comp-render" *ngIf="display">
-  <app-formproductos></app-formproductos>
-</div>
-
-<div id="comp-render" *ngIf="displayupdate">
-  
-<div class="example-container">
-  <form [formGroup]="this.formProductos">
-   
-  <mat-form-field hintLabel="Max 50 caracteres" appearance="fill">
-      <mat-label>Cambiar nombre</mat-label>
-      <input matInput  maxlength="50" formControlName="nombre">
-  </mat-form-field>
-
-  <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
-      <mat-label>Cambiar ID Tipo</mat-label>
-      <input matInput  maxlength="50" formControlName="id_tipo">
-  </mat-form-field>
-
-  <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
-      <mat-label>Editar ID Proveedor</mat-label>
-      <input matInput  maxlength="50"  formControlName="id_proveedor">
-  </mat-form-field>
-
-  <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
-      <mat-label>Editar Peso</mat-label>
-      <input matInput  maxlength="50"  formControlName="peso">
-  </mat-form-field>
-
-  <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
-      <mat-label>Editar Precio</mat-label>
-      <input matInput  maxlength="50" formControlName="precio">
-  </mat-form-field>
-
-  <!-- <mat-form-field hintLabel="Max 50 characteres" appearance="fill">
-      <mat-label>Enter some input</mat-label>
-      <input matInput  maxlength="50" placeholder="Activo" formControlName="activo">
-      <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint>
-  </mat-form-field> -->
-
-  <!-- <mat-form-field appearance="fill">
-      <mat-label>Cars</mat-label>
-      <select matNativeControl required>
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-      </select>
-  </mat-form-field> -->
-</form>
-</div>
-<section>
-  <div class="example-button-row">
-      <button mat-raised-button color="primary" (click)="actualizaProducto()">Guardar</button>
-  </div>
-</section>
-</div>

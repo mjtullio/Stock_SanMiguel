@@ -84,8 +84,10 @@ export class PedidosproveedoresComponent implements OnInit {
   private validar(event:any):Boolean{
     const maxSize = 500000;
     this.file = event.target.files
-    this.fileName = event.target.files[0].name
-
+    console.log(this.file);
+    
+    //  this.fileName = event.target.files[0].name
+    // console.log(this.fileName)
     if(this.file.length < 0){
       console.log("No se adjunto ningun archivo")
       this.file = "";
@@ -193,7 +195,7 @@ export class PedidosproveedoresComponent implements OnInit {
     if(validacion){
       let file = new FormData()
       file.append('imagen', this.file[0], this.fileName);
-      this.formDetallesPedido.get('imagen')?.setValue(file);
+
       console.log(file)
       this._PedidosproveedoresService.sendFile(file).subscribe(resp=>{
         console.log(resp)

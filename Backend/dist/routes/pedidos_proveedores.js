@@ -42,7 +42,7 @@ pedidosprovRoutes.post('/muestraPedidosProv', authentication_1.verificarToken, (
     });
 });
 pedidosprovRoutes.get('/muestraPedidos', authentication_1.verificarToken, (req, res) => {
-    connectionMySQL_1.default.query('select *, (select count(*) from detalles_pedidos_productos where id_tipos = "PROV" and id_pedido = id_pedidos_proveedores) as cantidad_detalles from pedidos_proveedores  order by id_pedidos_proveedores desc ', (error, result) => {
+    connectionMySQL_1.default.query('select *, (select count(*) from detalles_pedidos_productos where id_tipo = "PROV" and id_pedido = id_pedidos_proveedores) as cantidad_detalles from pedidos_proveedores  order by id_pedidos_proveedores desc ', (error, result) => {
         if (error) {
             throw error;
         }
@@ -145,9 +145,8 @@ pedidosprovRoutes.post('/modificaPedidoProv', authentication_1.verificarToken, (
 pedidosprovRoutes.post('/upload', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const imagen = req.files.imagen;
-        console.log(req);
         const names = req.files.name;
-        var ids = req.files.name.split('_');
+        var ids = names.split('_');
         const prov = ids[0];
         const pedido = ids[1];
         if (!req.files) {
@@ -165,7 +164,7 @@ pedidosprovRoutes.post('/upload', (req, res) => __awaiter(void 0, void 0, void 0
         else {
             imagen.name = prov + '_' + pedido;
             yield filesystem.guardarImagen('prueba', imagen);
-            yield promesa_1.default('UPDATE pedidos_proveedores set path_imagen = ? where id_pedidos_proveedores = ?', ['pedidos_proveedores' + prov + '_' + pedido, pedido]);
+            yield promesa_1.default('UPDATE pedidos_proveedores set path_imagen = ? where id_pedidos_proveedores = ?', ['pedidos_proveedores/' + prov + '_' + pedido, pedido]);
             res.json({
                 estado: 'success',
                 data: imagen

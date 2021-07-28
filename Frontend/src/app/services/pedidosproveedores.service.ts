@@ -25,7 +25,7 @@ export class PedidosproveedoresService {
     return this.http.post<IrepBackend>(`http://localhost:3000/pedidosprov/muestraPedidoProv`,{id_pedidos_proveedores: id_pedidos_proveedores})
   }
   sendFile(imagen:FormData){
-    return this.http.post(`http://localhost:3000/pedidosprov/upload`,  imagen,{})
+    return this.http.post(`http://localhost:3000/pedidosprov/upload`,imagen,{})
   }
   eliminarPedidoProveedores(id_pedidos_proveedores: number){
     return this.http.post<IrepBackend>(`http://localhost:3000/pedidosprov/eliminarPedidoProv`,{id_pedidos_proveedores: id_pedidos_proveedores})

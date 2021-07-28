@@ -32,7 +32,7 @@ pedidosventRoutes.get('/muestraPedidos', verificarToken ,(req: any, res: Respons
 
 pedidosventRoutes.post('/muestraPedidoVent', verificarToken ,(req: any, res: Response) => {
     const body = req.body;
-    connection.query('select * from pedidos_ventas where id_pedidos_ventas = ?',[body.pedidos_ventas], (error: any, result: any) => {
+    connection.query('select * from pedidos_ventas where id_pedidos_ventas = ?',[body.id_pedidos_ventas], (error: any, result: any) => {
         if (error) {
             throw error
         }
@@ -57,7 +57,7 @@ pedidosventRoutes.post('/AgregaPedidoVent', verificarToken ,async (req: any, res
 
 const body = req.body;
 
-connection.query("INSERT INTO pedidos_ventas (id_proveedor, id_tipo, importe , fecha, observacion, id_usuario) VALUES (7,'VENT',?,?,?,?)", [body.id_proveedor, body.importe , body.fecha, body.observacion, body.id_usuario], (error: any, result: any) => {
+connection.query("INSERT INTO pedidos_ventas (id_proveedor, id_tipo, importe , fecha, observacion, id_usuario) VALUES (7,'VENT',?,?,?,?)", [body.importe , body.fecha, body.observacion, body.id_usuario], (error: any, result: any) => {
     if (error) {
         throw error
     }
@@ -81,7 +81,7 @@ connection.query("INSERT INTO pedidos_ventas (id_proveedor, id_tipo, importe , f
 pedidosventRoutes.post('/modificaPedidoVent', verificarToken ,  (req: any, res: Response) => {
     
     const body = req.body;
-    connection.query('UPDATE pedidos_ventas set id_proveedor = ?, importe = ?, fecha = ?, observacion = ? where where id_pedido = ?', [ body.importe , body.fecha, body.observacion, body.id_pedido], (error: any, result: any) => {
+    connection.query('UPDATE pedidos_ventas set importe = ?, fecha = ?, observacion = ? where id_pedidos_ventas = ?', [ body.importe , body.fecha, body.observacion, body.id_pedidos_ventas], (error: any, result: any) => {
     
         if (error) {
             throw error
@@ -109,9 +109,9 @@ pedidosventRoutes.post('/eliminarPedidoVent', verificarToken , async (req: any, 
             
             await query("START TRANSACTION;");
     
-            await query('delete from detalles_pedidos_productos where id_tipo = "VENT" and id_pedido = ?',[body. id_pedidos_ventas]);
+            await query('delete from detalles_pedidos_productos where id_tipo = "VENT" and id_pedido = ?',[body.id_pedidos_ventas]);
             
-            await query('delete from pedidos_ventas where  id_pedidos_ventas = ?',[body. id_pedidos_ventas]);
+            await query('delete from pedidos_ventas where  id_pedidos_ventas = ?',[body.id_pedidos_ventas]);
             
     
             await query("COMMIT;");
