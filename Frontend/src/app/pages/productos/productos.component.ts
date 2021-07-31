@@ -24,8 +24,8 @@ export class ProductosComponent implements OnInit {
 
   formProductos = this.fb.group({
     id_producto: ["", Validators.required],
-    nombre: ["", Validators.required],
-    id_tipo: ["", Validators.required],
+    nombre: ["", [Validators.required, Validators.pattern(/^([A-Z]|[a-z])+$/)]],
+    id_tipo: ["", [Validators.required, Validators.pattern(/^([A-Z]|[a-z])+$/)]],
     id_proveedor: ["", Validators.required],
     peso: ["", Validators.required],
     precio: ["", Validators.required],

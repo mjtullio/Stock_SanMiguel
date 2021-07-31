@@ -29,7 +29,8 @@ export class PedidosventaComponent implements OnInit {
     id_pedido: ["", Validators.required] , 
     id_tipo: "VENT" , 
     id_producto: ["", Validators.required] , 
-    cantidad: ["", Validators.required] , precio_unitario: ["", Validators.required]
+    cantidad: ["", Validators.required] , 
+    precio_unitario: ["", Validators.required]
   })
   displayedColumns: string[] = ['id_pedidos_ventas', 'id_tipo', 'importe' , 'fecha', 'observacion', 'id_usuario', 'cantidad_detalles','acciones'];
   dataSource = this.datosTabla;

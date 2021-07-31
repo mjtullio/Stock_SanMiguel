@@ -25,11 +25,11 @@ export class ProveedoresComponent implements OnInit {
   
   formProveedores = this.fb.group({
     id_proveedor: ["", Validators.required],
-    nombre: ["", Validators.required],
+    nombre: ["", [Validators.required, Validators.pattern(/^([A-Z]|[a-z])+$/)]],
     localidad: ["", Validators.required],
-    telefono: ["", Validators.required],
-    email: ["", Validators.required],
-    cuil_cuit: ["", Validators.required],
+    telefono: ["", [Validators.required, Validators.maxLength(20), Validators.minLength(6)]],
+    email: ["", [Validators.required, Validators.email]],
+    cuil_cuit: ["",[Validators.required, Validators.maxLength(15), Validators.minLength(11)]],
     activo: [1]
     //activo: ["", Validators.required]
 
